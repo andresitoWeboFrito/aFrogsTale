@@ -29,13 +29,9 @@ char **loadMap(char *path)
 		}
 
 		// Copy the content of the buffer into a line
-		line = (char *)malloc((strlen(buffer) + 1) * sizeof(char));
+		line = formatLine(buffer);
 		if (!line)
-		{
-			// Failed allocation of line. TODO: something about it?
 			return NULL;
-		}
-		strcpy(line, buffer);
 
 		// store the line in the map
 		map[i] = line;
@@ -83,6 +79,25 @@ size_t countLines(char **map)
 	return i;
 }
 
-// checks for a valid map?
+char *formatLine(const char *buffer)
+{
+	char *line = NULL;
+	size_t len = 0;
 
-// render map
+	while (buffer[len] && buffer[len] != '\n')
+	{
+		len++;
+	}
+
+	line = (char *)malloc((len + 1) * sizeof(char));
+	if (!line)
+	{
+		// TODO: failed allocating the line!
+		return NULL;
+	}
+	strncpy(line, buffer, len);
+	printf("line: %s\n", line);
+	return line;
+}
+
+// checks for a valid map?

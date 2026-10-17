@@ -5,7 +5,8 @@ FLAGS = -Wall -Wextra -Iinclude -g
 LIBS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 
 SRC = 	src/main.c \
-		src/map.c
+		src/map.c \
+		src/render.c
 
 OBJ = $(SRC:.c=.o)
 
