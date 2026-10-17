@@ -14,7 +14,6 @@ char **loadMap(char *path)
 	{
 		printf("Couldnt open file\n");
 		return (NULL);
-		// problem opening the file, send and error TODO:
 	}
 
 	while (fgets(buffer, sizeof(buffer), mapFile))
@@ -23,7 +22,6 @@ char **loadMap(char *path)
 		map = reallocMap(map);
 		if (!map)
 		{
-			// TODO: reallocation failed do something about it
 			printf("Couldn't realocate the map\n");
 			return (NULL);
 		}
@@ -51,7 +49,7 @@ char **reallocMap(char **oldMap)
 	newMap = (char **)malloc(sizeof(char *) * (nLines + 2));
 
 	if (newMap == NULL)
-	{ // failed creating the map. TODO: do something about it
+	{
 		printf("failed when calling malloc\n");
 		return NULL;
 	}
@@ -92,12 +90,27 @@ char *formatLine(const char *buffer)
 	line = (char *)malloc((len + 1) * sizeof(char));
 	if (!line)
 	{
-		// TODO: failed allocating the line!
+		printf("failed when calling malloc\n");
 		return NULL;
 	}
 	strncpy(line, buffer, len);
-	printf("line: %s\n", line);
 	return line;
 }
 
-// checks for a valid map?
+void parseMap(GameData *game)
+{
+	// TODO: this will do more things
+	for (size_t y = 0; y < countLines(game->map); y++)
+	{
+		for (size_t x = 0; x < strlen(game->map[y]); x++)
+		{
+			if (game->map[y][x] == 'P')
+			{
+				game->playerPos.x = x;
+				game->playerPos.y = y;
+			}
+		}
+	}
+}
+
+// TODO:  checks for a valid map?

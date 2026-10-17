@@ -12,6 +12,12 @@
 
 typedef struct
 {
+	size_t x;
+	size_t y;
+} Position;
+
+typedef struct
+{
 	Texture2D player;
 	Texture2D wall;
 	Texture2D ground;
@@ -20,6 +26,7 @@ typedef struct
 typedef struct
 {
 	char **map;
+	Position playerPos;
 	Sprites sprites;
 } GameData;
 
@@ -29,6 +36,11 @@ char **reallocMap(char **oldMap);
 size_t countLines(char **map);
 char **loadMap(char *path);
 char *formatLine(const char *buffer);
+void parseMap(GameData *game);
 
 /* Functions of render.c */
 void renderMap(char **map, Sprites sprites);
+void renderPlayer(Position playerPos, Texture2D playerSprite);
+
+/* Functions of input.c */
+void checkPressedKeys(GameData *game);

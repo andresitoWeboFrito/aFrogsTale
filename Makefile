@@ -6,7 +6,8 @@ LIBS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 
 SRC = 	src/main.c \
 		src/map.c \
-		src/render.c
+		src/render.c \
+		src/input.c
 
 OBJ = $(SRC:.c=.o)
 
