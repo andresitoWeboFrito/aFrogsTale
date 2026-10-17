@@ -1,10 +1,11 @@
 NAME = aFrogsTale
 
 CC = gcc
-FLAGS = -Wall -Wextra -Iinclude
+FLAGS = -Wall -Wextra -Iinclude -g
 LIBS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 
-SRC = src/main.c
+SRC = 	src/main.c \
+		src/map.c
 
 OBJ = $(SRC:.c=.o)
 
