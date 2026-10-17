@@ -5,9 +5,11 @@ char **loadMap(char *path)
 {
 	FILE *mapFile = fopen(path, "r");
 	// buffer of size 256 to read the lines of the map. Should be enough
-	char line[256];
+	char buffer[256];
+	char *line = NULL;
 	char **map = NULL;
 	int i = 0;
+
 	if (mapFile == NULL)
 	{
 		printf("Couldnt open file\n");
@@ -15,7 +17,7 @@ char **loadMap(char *path)
 		// problem opening the file, send and error TODO:
 	}
 
-	while (fgets(line, sizeof(line), mapFile))
+	while (fgets(buffer, sizeof(buffer), mapFile))
 	{
 		// make the map a line bigger
 		map = reallocMap(map);
@@ -25,6 +27,15 @@ char **loadMap(char *path)
 			printf("Couldn't realocate the map\n");
 			return (NULL);
 		}
+
+		// Copy the content of the buffer into a line
+		line = (char *)malloc((strlen(buffer) + 1) * sizeof(char));
+		if (!line)
+		{
+			// Failed allocation of line. TODO: something about it?
+			return NULL;
+		}
+		strcpy(line, buffer);
 
 		// store the line in the map
 		map[i] = line;

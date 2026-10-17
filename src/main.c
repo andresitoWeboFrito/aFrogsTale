@@ -13,7 +13,7 @@ int main()
 		size_t i = 0;
 		while (map[i])
 		{
-			printf("%s\n", map[i]);
+			printf("%s", map[i]);
 			i++;
 		}
 	}
