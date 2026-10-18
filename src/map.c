@@ -113,4 +113,79 @@ void parseMap(GameData *game)
 	}
 }
 
-// TODO:  checks for a valid map?
+bool checkMap(char **map)
+{
+	/**
+	 * Valid map should be:
+	 * 1. Surrounded by walls '#'
+	 * 2. Contains 1 player 'P'
+	 * 3. TODO: enemies? coins? exit?
+	 */
+
+	if (!checkWalls(map))
+		return false;
+	else if (!checkPlayer(map))
+		return false;
+	else
+		return true;
+}
+
+bool checkWalls(char **map)
+{
+	// TODO: there is missing checks for non rectangular maps, like:
+	/**
+	 * ####
+	 * #  #### <- this small square should also be closed top AND bottom
+	 * #     # <-
+	 * ####### <-
+	 */
+	if (!map)
+		return false;
+	size_t i = 0;
+	size_t nLines = countLines(map);
+
+	// Check the first row
+	while (map[0][i] == '#')
+	{
+		++i;
+	}
+	if (map[0][i] != '\0')
+		return false;
+
+	// check the columns
+	for (size_t j = 0; j < nLines - 1; j++)
+	{
+		size_t lineLen = strlen(map[j]) - 1;
+		if (map[j][0] != '#' || map[j][lineLen] != '#')
+			return false;
+	}
+
+	// Check the last row
+	i = 0;
+	while (map[nLines - 1][i] == '#')
+	{
+		++i;
+	}
+	if (map[nLines - 1][i] != '\0')
+		return false;
+
+	return true;
+}
+
+bool checkPlayer(char **map)
+{
+	unsigned int count = 0;
+	for (size_t y = 0; y < countLines(map); y++)
+	{
+		for (size_t x = 0; x < strlen(map[y]); x++)
+		{
+			if (map[y][x] == 'P')
+				++count;
+		}
+	}
+
+	if (count == 1)
+		return true;
+	else
+		return false;
+}

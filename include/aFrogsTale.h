@@ -45,6 +45,9 @@ size_t countLines(char **map);
 char **loadMap(const char *path);
 char *formatLine(const char *buffer);
 void parseMap(GameData *game);
+bool checkMap(char **map);
+bool checkWalls(char **map);
+bool checkPlayer(char **map);
 
 /* Functions of render.c */
 void renderMap(char **map, Sprites sprites);
