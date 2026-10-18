@@ -1,7 +1,7 @@
 #include "aFrogsTale.h"
 
 // load a map from memory
-char **loadMap(char *path)
+char **loadMap(const char *path)
 {
 	FILE *mapFile = fopen(path, "r");
 	// buffer of size 256 to read the lines of the map. Should be enough

@@ -20,8 +20,11 @@ void renderMap(char **map, Sprites sprites)
 	}
 }
 
-void renderPlayer(Position playerPos, Texture2D playerSprite)
+void renderPlayer(Position playerPos, Direction playerDirection, const Sprites *sprites)
 {
 	// This will be more complex when I have some kind of player animations
-	DrawTexture(playerSprite, playerPos.x * SPRITE_SIZE, playerPos.y * SPRITE_SIZE, WHITE);
+	if (playerDirection == Right)
+		DrawTexture(sprites->playerRight, playerPos.x * SPRITE_SIZE, playerPos.y * SPRITE_SIZE, WHITE);
+	else
+		DrawTexture(sprites->playerLeft, playerPos.x * SPRITE_SIZE, playerPos.y * SPRITE_SIZE, WHITE);
 }

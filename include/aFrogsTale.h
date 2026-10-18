@@ -10,6 +10,12 @@
 #define SCREEN_W 800
 #define SCREEN_H 450
 
+typedef enum
+{
+	Left,
+	Right
+} Direction;
+
 typedef struct
 {
 	size_t x;
@@ -18,7 +24,8 @@ typedef struct
 
 typedef struct
 {
-	Texture2D player;
+	Texture2D playerRight;
+	Texture2D playerLeft;
 	Texture2D wall;
 	Texture2D ground;
 } Sprites;
@@ -27,6 +34,7 @@ typedef struct
 {
 	char **map;
 	Position playerPos;
+	Direction playerDirection;
 	Sprites sprites;
 } GameData;
 
@@ -34,13 +42,13 @@ typedef struct
 
 char **reallocMap(char **oldMap);
 size_t countLines(char **map);
-char **loadMap(char *path);
+char **loadMap(const char *path);
 char *formatLine(const char *buffer);
 void parseMap(GameData *game);
 
 /* Functions of render.c */
 void renderMap(char **map, Sprites sprites);
-void renderPlayer(Position playerPos, Texture2D playerSprite);
+void renderPlayer(Position playerPos, Direction playerDirection, const Sprites *sprites);
 
 /* Functions of input.c */
 void checkPressedKeys(GameData *game);

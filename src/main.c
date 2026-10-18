@@ -3,13 +3,15 @@
 void initGame(GameData *game)
 {
 	game->map = loadMap("maps/default.map");
+	game->playerDirection = Right;
 
 	parseMap(game);
 
 	InitWindow(SCREEN_W, SCREEN_H, "test");
 	game->sprites.wall = LoadTexture("sprites/wall.png");
 	game->sprites.ground = LoadTexture("sprites/ground.png");
-	game->sprites.player = LoadTexture("sprites/player.png");
+	game->sprites.playerRight = LoadTexture("sprites/player_right.png");
+	game->sprites.playerLeft = LoadTexture("sprites/player_left.png");
 
 	SetTargetFPS(60);
 }
@@ -29,8 +31,7 @@ int main()
 
 		ClearBackground(BLACK);
 		renderMap(game.map, game.sprites);
-		// TODO: I have to initialze the player position to the P of the map!
-		renderPlayer(game.playerPos, game.sprites.player);
+		renderPlayer(game.playerPos, game.playerDirection, &game.sprites);
 
 		EndDrawing();
 	}
