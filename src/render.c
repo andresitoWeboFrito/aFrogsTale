@@ -1,6 +1,6 @@
 #include "aFrogsTale.h"
 
-void renderMap(char **map, Sprites sprites)
+void renderBackground(char **map, Sprites sprites)
 {
 	// so this has to be a funtion that renders the map (i.e the background?)
 	// so at the moment only walls and ground?
@@ -12,8 +12,6 @@ void renderMap(char **map, Sprites sprites)
 		{
 			if (map[y][x] == '#')
 				DrawTexture(sprites.wall, x * SPRITE_SIZE, y * SPRITE_SIZE, WHITE);
-
-			// else if (map[y][x] == ' ')
 			else
 				DrawTexture(sprites.ground, x * SPRITE_SIZE, y * SPRITE_SIZE, WHITE);
 		}
@@ -27,4 +25,15 @@ void renderPlayer(Position playerPos, Direction playerDirection, const Sprites *
 		DrawTexture(sprites->playerRight, playerPos.x * SPRITE_SIZE, playerPos.y * SPRITE_SIZE, WHITE);
 	else
 		DrawTexture(sprites->playerLeft, playerPos.x * SPRITE_SIZE, playerPos.y * SPRITE_SIZE, WHITE);
+}
+
+void renderCoins(const CoinsData *coinsData, const Texture2D *coinSprite)
+{
+	for (size_t i = 0; i < coinsData->nCoins; i++)
+	{
+		if (!coinsData->coins[i].collected)
+		{
+			DrawTexture(*coinSprite, coinsData->coins[i].pos.x * SPRITE_SIZE, coinsData->coins[i].pos.y * SPRITE_SIZE, WHITE);
+		}
+	}
 }

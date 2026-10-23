@@ -109,7 +109,33 @@ void parseMap(GameData *game)
 				game->playerPos.x = x;
 				game->playerPos.y = y;
 			}
+			else if (game->map[y][x] == 'C')
+			{
+				// add the coin to the array
+				addCoin(&game->coinsData, (Position){.x = x, .y = y});
+			}
+			else if (game->map[y][x] == 'D')
+			{
+				// the exit door of the level
+			}
 		}
+	}
+}
+
+void addCoin(CoinsData *coinsData, Position pos)
+{
+	if (coinsData && coinsData->nCoins + 1 < MAX_COINS)
+	{
+		// add a new coin
+		coinsData->coins[coinsData->nCoins].pos = pos;
+		coinsData->coins[coinsData->nCoins].collected = false;
+		coinsData->nCoins++;
+	}
+	else
+	{
+		// null ptr or maximun number of coins reached
+		if (coinsData->nCoins + 1 >= MAX_COINS)
+			printf("Maximum number of coins reached!\n");
 	}
 }
 
@@ -159,6 +185,20 @@ bool checkWalls(char **map)
 		if (map[j][0] != '#' || map[j][lineLen] != '#')
 			return false;
 	}
+
+	// okay so a generic colum of the worst case would be something like
+	/**
+	 * (blank spaces) ########### (blank spaces)
+	 *  (blank spaces)#         # (blank paces)
+	 * ###############           #####
+	 * #                             #
+	 * #                         #####
+	 * ##########################
+	 * So:
+	 * the main thing is to check the line length aparently if there is a difference in the lenghts, there has to be an openeing / closing
+	 * as of now checks a full line on the top and bottom and its missing a full line when the line gets bigger
+	 *
+	 */
 
 	// Check the last row
 	i = 0;

@@ -9,6 +9,7 @@
 #define SPRITE_SIZE 64
 #define SCREEN_W 800
 #define SCREEN_H 450
+#define MAX_COINS 100
 
 typedef enum
 {
@@ -24,10 +25,23 @@ typedef struct
 
 typedef struct
 {
+	Position pos;
+	bool collected;
+} Coin;
+
+typedef struct
+{
+	Coin coins[MAX_COINS];
+	size_t nCoins;
+} CoinsData;
+
+typedef struct
+{
 	Texture2D playerRight;
 	Texture2D playerLeft;
 	Texture2D wall;
 	Texture2D ground;
+	Texture2D coin;
 } Sprites;
 
 typedef struct
@@ -36,6 +50,7 @@ typedef struct
 	Position playerPos;
 	Direction playerDirection;
 	Sprites sprites;
+	CoinsData coinsData;
 } GameData;
 
 /* Functions of map.c */
@@ -48,10 +63,12 @@ void parseMap(GameData *game);
 bool checkMap(char **map);
 bool checkWalls(char **map);
 bool checkPlayer(char **map);
+void addCoin(CoinsData *coinsData, Position pos);
 
 /* Functions of render.c */
-void renderMap(char **map, Sprites sprites);
+void renderBackground(char **map, Sprites sprites);
 void renderPlayer(Position playerPos, Direction playerDirection, const Sprites *sprites);
+void renderCoins(const CoinsData *coinsData, const Texture2D *coinSprite);
 
 /* Functions of input.c */
 void checkPressedKeys(GameData *game);

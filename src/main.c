@@ -4,6 +4,7 @@ bool initGame(GameData *game)
 {
 	game->map = loadMap("maps/default.map");
 	game->playerDirection = Right;
+	game->coinsData.nCoins = 0;
 	if (!checkMap(game->map))
 		return false;
 
@@ -14,7 +15,7 @@ bool initGame(GameData *game)
 	game->sprites.ground = LoadTexture("sprites/ground.png");
 	game->sprites.playerRight = LoadTexture("sprites/player_right.png");
 	game->sprites.playerLeft = LoadTexture("sprites/player_left.png");
-
+	game->sprites.coin = LoadTexture("sprites/coin.png");
 	SetTargetFPS(60);
 
 	return true;
@@ -35,9 +36,9 @@ int main()
 		BeginDrawing();
 
 		ClearBackground(BLACK);
-		renderMap(game.map, game.sprites);
+		renderBackground(game.map, game.sprites);
 		renderPlayer(game.playerPos, game.playerDirection, &game.sprites);
-
+		renderCoins(&game.coinsData, &game.sprites.coin);
 		EndDrawing();
 	}
 	CloseWindow();
