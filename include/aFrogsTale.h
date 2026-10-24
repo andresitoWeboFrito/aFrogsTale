@@ -7,16 +7,25 @@
 
 // global consts
 #define SPRITE_SIZE 64
-#define SCREEN_W 800
-#define SCREEN_H 450
 #define MAX_COINS 100
 
+// enums
 typedef enum
 {
 	Left,
-	Right
+	Right,
+	Up,
+	Down
 } Direction;
 
+typedef enum
+{
+	Playing,
+	Won,
+	Died
+} GameState;
+
+// structs
 typedef struct
 {
 	size_t x;
@@ -33,6 +42,7 @@ typedef struct
 {
 	Coin coins[MAX_COINS];
 	size_t nCoins;
+	size_t remaininCoins;
 } CoinsData;
 
 typedef struct
@@ -42,13 +52,18 @@ typedef struct
 	Texture2D wall;
 	Texture2D ground;
 	Texture2D coin;
+	Texture2D exit;
 } Sprites;
 
 typedef struct
 {
 	char **map;
+	size_t mapWidth;
+	size_t mapHeigth;
 	Position playerPos;
-	Direction playerDirection;
+	Direction playerLookDirection;
+	Position exitPos;
+	GameState state;
 	Sprites sprites;
 	CoinsData coinsData;
 } GameData;
@@ -67,9 +82,16 @@ void addCoin(CoinsData *coinsData, Position pos);
 
 /* Functions of render.c */
 void renderBackground(char **map, const Sprites *sprites);
-void renderPlayer(Position playerPos, Direction playerDirection, const Sprites *sprites);
+void renderPlayer(Position playerPos, Direction playerLookDirection, const Sprites *sprites);
 void renderCoins(const CoinsData *coinsData, const Texture2D *coinSprite);
+void renderExit(Position exitPos, const Texture2D *sprite);
 
 /* Functions of input.c */
 void checkPressedKeys(GameData *game);
+Position calcNewPosition(Position oldPos, Direction direction);
+void checkMovementColisions(GameData *game, Direction playerDir);
 void checkCoins(CoinsData *coinsData, Position player);
+
+/* Functions of utils.c */
+bool isPosEqual(Position pos1, Position pos2);
+// TODO: check everything is using isPosEqual instead of directly comparing the positions

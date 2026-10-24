@@ -100,9 +100,16 @@ char *formatLine(const char *buffer)
 void parseMap(GameData *game)
 {
 	// TODO: this will do more things
+	size_t longestLine = 0;
+	size_t lineLength;
+
 	for (size_t y = 0; y < countLines(game->map); y++)
 	{
-		for (size_t x = 0; x < strlen(game->map[y]); x++)
+		lineLength = strlen(game->map[y]);
+		if (lineLength > longestLine)
+			longestLine = lineLength;
+
+		for (size_t x = 0; x < lineLength; x++)
 		{
 			if (game->map[y][x] == 'P')
 			{
@@ -114,12 +121,19 @@ void parseMap(GameData *game)
 				// add the coin to the array
 				addCoin(&game->coinsData, (Position){.x = x, .y = y});
 			}
-			else if (game->map[y][x] == 'D')
+			else if (game->map[y][x] == 'E')
 			{
 				// the exit door of the level
+				game->exitPos.x = x;
+				game->exitPos.y = y;
 			}
 		}
 	}
+
+	game->mapWidth = longestLine;
+	game->mapHeigth = countLines(game->map);
+
+	game->coinsData.remaininCoins = game->coinsData.nCoins;
 }
 
 void addCoin(CoinsData *coinsData, Position pos)
@@ -238,4 +252,3 @@ bool checkItems(char **map)
 	else
 		return false;
 }
-

@@ -18,10 +18,10 @@ void renderBackground(char **map, const Sprites *sprites)
 	}
 }
 
-void renderPlayer(Position playerPos, Direction playerDirection, const Sprites *sprites)
+void renderPlayer(Position playerPos, Direction playerLookDirection, const Sprites *sprites)
 {
 	// This will be more complex when I have some kind of player animations
-	if (playerDirection == Right)
+	if (playerLookDirection == Right)
 		DrawTexture(sprites->playerRight, playerPos.x * SPRITE_SIZE, playerPos.y * SPRITE_SIZE, WHITE);
 	else
 		DrawTexture(sprites->playerLeft, playerPos.x * SPRITE_SIZE, playerPos.y * SPRITE_SIZE, WHITE);
@@ -36,4 +36,10 @@ void renderCoins(const CoinsData *coinsData, const Texture2D *coinSprite)
 			DrawTexture(*coinSprite, coinsData->coins[i].pos.x * SPRITE_SIZE, coinsData->coins[i].pos.y * SPRITE_SIZE, WHITE);
 		}
 	}
+}
+
+void renderExit(Position exitPos, const Texture2D *sprite)
+{
+	// TODO: fix it once I've added the real door
+	DrawTexture(*sprite, exitPos.x * SPRITE_SIZE, exitPos.y * SPRITE_SIZE, RED);
 }

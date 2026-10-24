@@ -2,21 +2,69 @@
 
 void checkPressedKeys(GameData *game)
 {
-	// i dont like the check against the wall, its a bit flinicky
-	if (IsKeyPressed(KEY_D) && game->map[game->playerPos.y][game->playerPos.x + 1] != '#')
+	if (IsKeyPressed(KEY_D))
 	{
-		++game->playerPos.x;
-		game->playerDirection = Right;
+		checkMovementColisions(game, Right);
+		game->playerLookDirection = Right;
 	}
-	else if (IsKeyPressed(KEY_A) && game->map[game->playerPos.y][game->playerPos.x - 1] != '#')
+	else if (IsKeyPressed(KEY_A))
 	{
-		--game->playerPos.x;
-		game->playerDirection = Left;
+		checkMovementColisions(game, Left);
+		game->playerLookDirection = Left;
 	}
-	else if (IsKeyPressed(KEY_S) && game->map[game->playerPos.y + 1][game->playerPos.x] != '#')
-		++game->playerPos.y;
-	else if (IsKeyPressed(KEY_W) && game->map[game->playerPos.y - 1][game->playerPos.x] != '#')
-		--game->playerPos.y;
+	else if (IsKeyPressed(KEY_S))
+		checkMovementColisions(game, Down);
+	else if (IsKeyPressed(KEY_W))
+		checkMovementColisions(game, Up);
+}
+
+/**
+ * This is should only be called on a new movement intention.
+ * For things like if a enemy toches me, I have to do something different.
+ */
+void checkMovementColisions(GameData *game, Direction playerDir)
+{
+	// calc new Pos
+	Position newPos = calcNewPosition(game->playerPos, playerDir);
+
+	// TODO: better way to do this? Can i colide with an enemy?
+	if (!(game->map[newPos.y][newPos.x] == '#'))
+	{
+		// If it is not wall, update the position
+		game->playerPos = newPos;
+	}
+	checkCoins(&game->coinsData, game->playerPos);
+	// check against door -> update
+	if (isPosEqual(game->playerPos, game->exitPos) && game->coinsData.remaininCoins == 0)
+	{
+		game->state = Won;
+	}
+	// check against enemy? -> dmg? (maybe this is for a check to happen EVERY time slice)
+}
+Position calcNewPosition(Position oldPos, Direction direction)
+{
+	Position newPos;
+	if (direction == Left)
+	{
+		newPos.x = oldPos.x - 1;
+		newPos.y = oldPos.y;
+	}
+	else if (direction == Right)
+	{
+		newPos.x = oldPos.x + 1;
+		newPos.y = oldPos.y;
+	}
+	else if (direction == Up)
+	{
+		newPos.x = oldPos.x;
+		newPos.y = oldPos.y - 1;
+	}
+	else // direction == Down
+	{
+		newPos.x = oldPos.x;
+		newPos.y = oldPos.y + 1;
+	}
+	return newPos;
 }
 
 void checkCoins(CoinsData *coinsData, Position player)
@@ -26,6 +74,7 @@ void checkCoins(CoinsData *coinsData, Position player)
 		if ((coinsData->coins[i].pos.x == player.x) && (coinsData->coins[i].pos.y == player.y))
 		{
 			coinsData->coins[i].collected = true;
+			coinsData->remaininCoins--;
 			// TODO: give some points to the player?
 			return;
 		}
