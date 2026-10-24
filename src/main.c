@@ -31,12 +31,13 @@ int main()
 	{
 		// check for pressed keys
 		checkPressedKeys(&game);
+		checkCoins(&game.coinsData, game.playerPos);
 
 		// draw each frame
 		BeginDrawing();
 
 		ClearBackground(BLACK);
-		renderBackground(game.map, game.sprites);
+		renderBackground(game.map, &game.sprites);
 		renderPlayer(game.playerPos, game.playerDirection, &game.sprites);
 		renderCoins(&game.coinsData, &game.sprites.coin);
 		EndDrawing();

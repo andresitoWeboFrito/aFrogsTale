@@ -1,6 +1,6 @@
 #include "aFrogsTale.h"
 
-void renderBackground(char **map, Sprites sprites)
+void renderBackground(char **map, const Sprites *sprites)
 {
 	// so this has to be a funtion that renders the map (i.e the background?)
 	// so at the moment only walls and ground?
@@ -11,9 +11,9 @@ void renderBackground(char **map, Sprites sprites)
 		for (size_t x = 0; x < strlen(map[y]); x++)
 		{
 			if (map[y][x] == '#')
-				DrawTexture(sprites.wall, x * SPRITE_SIZE, y * SPRITE_SIZE, WHITE);
+				DrawTexture(sprites->wall, x * SPRITE_SIZE, y * SPRITE_SIZE, WHITE);
 			else
-				DrawTexture(sprites.ground, x * SPRITE_SIZE, y * SPRITE_SIZE, WHITE);
+				DrawTexture(sprites->ground, x * SPRITE_SIZE, y * SPRITE_SIZE, WHITE);
 		}
 	}
 }

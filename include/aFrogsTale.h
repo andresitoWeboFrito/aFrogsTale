@@ -62,13 +62,14 @@ char *formatLine(const char *buffer);
 void parseMap(GameData *game);
 bool checkMap(char **map);
 bool checkWalls(char **map);
-bool checkPlayer(char **map);
+bool checkItems(char **map);
 void addCoin(CoinsData *coinsData, Position pos);
 
 /* Functions of render.c */
-void renderBackground(char **map, Sprites sprites);
+void renderBackground(char **map, const Sprites *sprites);
 void renderPlayer(Position playerPos, Direction playerDirection, const Sprites *sprites);
 void renderCoins(const CoinsData *coinsData, const Texture2D *coinSprite);
 
 /* Functions of input.c */
 void checkPressedKeys(GameData *game);
+void checkCoins(CoinsData *coinsData, Position player);

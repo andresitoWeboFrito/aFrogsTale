@@ -145,12 +145,14 @@ bool checkMap(char **map)
 	 * Valid map should be:
 	 * 1. Surrounded by walls '#'
 	 * 2. Contains 1 player 'P'
-	 * 3. TODO: enemies? coins? exit?
+	 * 3. Contains atleast 1 coin 'C'
+	 * 4. Contains 1 exit 'E'
+	 * 5. TODO: enemies?
 	 */
 
 	if (!checkWalls(map))
 		return false;
-	else if (!checkPlayer(map))
+	else if (!checkItems(map))
 		return false;
 	else
 		return true;
@@ -212,20 +214,28 @@ bool checkWalls(char **map)
 	return true;
 }
 
-bool checkPlayer(char **map)
+bool checkItems(char **map)
 {
-	unsigned int count = 0;
+	unsigned int playerCounter = 0;
+	unsigned int coinCounter = 0;
+	unsigned int exitCounter = 0;
+
 	for (size_t y = 0; y < countLines(map); y++)
 	{
 		for (size_t x = 0; x < strlen(map[y]); x++)
 		{
 			if (map[y][x] == 'P')
-				++count;
+				++playerCounter;
+			else if (map[y][x] == 'C')
+				++coinCounter;
+			else if (map[y][x] == 'E')
+				++exitCounter;
 		}
 	}
 
-	if (count == 1)
+	if (playerCounter == 1 && coinCounter >= 1 && exitCounter == 1)
 		return true;
 	else
 		return false;
 }
+
