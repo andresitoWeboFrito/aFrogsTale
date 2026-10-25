@@ -12,7 +12,7 @@ char **loadMap(const char *path)
 
 	if (mapFile == NULL)
 	{
-		printf("Couldnt open file\n");
+		printf("Couldn't open file\n");
 		return (NULL);
 	}
 
@@ -99,7 +99,6 @@ char *formatLine(const char *buffer)
 
 void parseMap(GameData *game)
 {
-	// TODO: this will do more things
 	size_t longestLine = 0;
 	size_t lineLength;
 
@@ -165,9 +164,15 @@ bool checkMap(char **map)
 	 */
 
 	if (!checkWalls(map))
+	{
+		printf("%sThe map is not completely closed!\n", TERM_RED);
 		return false;
+	}
 	else if (!checkItems(map))
+	{
+		printf("%sThe map doesn't have the correct number of Coins 'C', Players 'P', and/or Exits 'E'\n", TERM_RED);
 		return false;
+	}
 	else
 		return true;
 }

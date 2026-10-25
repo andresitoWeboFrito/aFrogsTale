@@ -38,8 +38,11 @@ void renderCoins(const CoinsData *coinsData, const Texture2D *coinSprite)
 	}
 }
 
-void renderExit(Position exitPos, const Texture2D *sprite)
+void renderExit(const GameData *game)
 {
-	// TODO: fix it once I've added the real door
-	DrawTexture(*sprite, exitPos.x * SPRITE_SIZE, exitPos.y * SPRITE_SIZE, RED);
+	if (game->coinsData.remaininCoins == 0)
+		DrawTexture(game->sprites.exitOpen, game->exitPos.x * SPRITE_SIZE, game->exitPos.y * SPRITE_SIZE, WHITE);
+	else
+		DrawTexture(game->sprites.exitClosed, game->exitPos.x * SPRITE_SIZE, game->exitPos.y * SPRITE_SIZE, WHITE);
 }
+

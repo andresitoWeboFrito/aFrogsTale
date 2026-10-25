@@ -9,6 +9,10 @@
 #define SPRITE_SIZE 64
 #define MAX_COINS 100
 
+// escape codes for printf
+#define TERM_GREEN "\033[32m"
+#define TERM_RED "\033[31m"
+
 // enums
 typedef enum
 {
@@ -45,6 +49,8 @@ typedef struct
 	size_t remaininCoins;
 } CoinsData;
 
+// TODO: create a struct with the info relevant to the exit(open, pos, ...)
+
 typedef struct
 {
 	Texture2D playerRight;
@@ -52,7 +58,8 @@ typedef struct
 	Texture2D wall;
 	Texture2D ground;
 	Texture2D coin;
-	Texture2D exit;
+	Texture2D exitClosed;
+	Texture2D exitOpen;
 } Sprites;
 
 typedef struct
@@ -84,7 +91,7 @@ void addCoin(CoinsData *coinsData, Position pos);
 void renderBackground(char **map, const Sprites *sprites);
 void renderPlayer(Position playerPos, Direction playerLookDirection, const Sprites *sprites);
 void renderCoins(const CoinsData *coinsData, const Texture2D *coinSprite);
-void renderExit(Position exitPos, const Texture2D *sprite);
+void renderExit(const GameData *game);
 
 /* Functions of input.c */
 void checkPressedKeys(GameData *game);
@@ -94,4 +101,5 @@ void checkCoins(CoinsData *coinsData, Position player);
 
 /* Functions of utils.c */
 bool isPosEqual(Position pos1, Position pos2);
-// TODO: check everything is using isPosEqual instead of directly comparing the positions
+bool loadSprite(Texture2D *texture, const char *name);
+bool loadAllSprites(Sprites *sprites);

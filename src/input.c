@@ -34,13 +34,14 @@ void checkMovementColisions(GameData *game, Direction playerDir)
 		game->playerPos = newPos;
 	}
 	checkCoins(&game->coinsData, game->playerPos);
-	// check against door -> update
+	// check against door
 	if (isPosEqual(game->playerPos, game->exitPos) && game->coinsData.remaininCoins == 0)
 	{
 		game->state = Won;
 	}
 	// check against enemy? -> dmg? (maybe this is for a check to happen EVERY time slice)
 }
+
 Position calcNewPosition(Position oldPos, Direction direction)
 {
 	Position newPos;
@@ -71,10 +72,11 @@ void checkCoins(CoinsData *coinsData, Position player)
 {
 	for (size_t i = 0; i < coinsData->nCoins; i++)
 	{
-		if ((coinsData->coins[i].pos.x == player.x) && (coinsData->coins[i].pos.y == player.y))
+		if (isPosEqual(coinsData->coins[i].pos, player) && !coinsData->coins[i].collected)
 		{
 			coinsData->coins[i].collected = true;
 			coinsData->remaininCoins--;
+			printf("Remaining Coins: %lu\n", coinsData->remaininCoins);
 			// TODO: give some points to the player?
 			return;
 		}
