@@ -94,6 +94,7 @@ char *formatLine(const char *buffer)
 		return NULL;
 	}
 	strncpy(line, buffer, len);
+	line[len] = '\0';
 	return line;
 }
 
