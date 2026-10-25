@@ -15,8 +15,13 @@ The following commands are available:
 - make re: performs fclean and the recompiles everything
 
 ## Playing
-The game can be played by launching the linux executable with ./aFrogsTale
+The game can be played by launching the linux executable with ```./aFrogsTale ```
 - Use WASD keys to move our samurai frog.
 - Close the game by pressing Esc or the 'x' button on the window
+- Collect all the coins and head to the door to win the game!
 
-The games reads and loads the map called "default.map" in the maps folder. Play with it a bit if you want :)
+The games reads and loads the map called "default.map" in the maps folder. Feel free to play with it :)
+
+Ps: Now you can directly load your own game map by passing its path when executing the game like this: ``` ./aFrogsTale "path/to/your/map" ``` If you don't provide any map, the default one will be loaded.
+
+Go and have some fun!
