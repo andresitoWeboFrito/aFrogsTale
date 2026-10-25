@@ -2,7 +2,7 @@
 
 bool initGame(GameData *game)
 {
-	game->map = loadMap("maps/default.map");
+	game->map = loadMap(game->mapPath);
 	if (!game->map)
 	{
 		return false;
@@ -25,11 +25,20 @@ bool initGame(GameData *game)
 	return true;
 }
 
-int main()
+int main(int argc, char **argv)
 {
-	// TODO: add the posibility of input a different map with argv**
-
 	GameData game;
+
+	if (argc == 2)
+	{
+		game.mapPath = argv[1];
+		printf("Loading the map from %s\n", game.mapPath);
+	}
+	else
+	{
+		game.mapPath = "maps/default.map";
+		printf("No game map provided, loading the default one (at maps/default.map)\n");
+	}
 
 	if (!initGame(&game))
 		return 0;

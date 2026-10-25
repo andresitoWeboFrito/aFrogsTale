@@ -65,6 +65,7 @@ typedef struct
 typedef struct
 {
 	char **map;
+	char *mapPath;
 	size_t mapWidth;
 	size_t mapHeigth;
 	Position playerPos;

@@ -12,7 +12,7 @@ char **loadMap(const char *path)
 
 	if (mapFile == NULL)
 	{
-		printf("Couldn't open file\n");
+		printf("Couldn't open file. Don't forget to put the /map at the beggining of the path.\n");
 		return (NULL);
 	}
 
