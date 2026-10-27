@@ -33,9 +33,9 @@ void checkMovementColisions(GameData *game, Direction playerDir)
 		// If it is not wall, update the position
 		game->playerPos = newPos;
 	}
-	checkCoins(&game->coinsData, game->playerPos);
+	checkCoins(&game->coinsData, game->playerPos, &game->score);
 	// check against door
-	if (isPosEqual(game->playerPos, game->exitPos) && game->coinsData.remaininCoins == 0)
+	if (isPosEqual(game->playerPos, game->doorPos) && game->coinsData.remaininCoins == 0)
 	{
 		game->state = Won;
 	}
@@ -68,7 +68,7 @@ Position calcNewPosition(Position oldPos, Direction direction)
 	return newPos;
 }
 
-void checkCoins(CoinsData *coinsData, Position player)
+void checkCoins(CoinsData *coinsData, Position player, size_t *score)
 {
 	for (size_t i = 0; i < coinsData->nCoins; i++)
 	{
@@ -76,8 +76,9 @@ void checkCoins(CoinsData *coinsData, Position player)
 		{
 			coinsData->coins[i].collected = true;
 			coinsData->remaininCoins--;
+			// TODO: give 10 points for coin?
+			(*score)++;
 			printf("Remaining Coins: %lu\n", coinsData->remaininCoins);
-			// TODO: give some points to the player?
 			return;
 		}
 	}

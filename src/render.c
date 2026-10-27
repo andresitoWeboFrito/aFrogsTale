@@ -41,8 +41,8 @@ void renderCoins(const CoinsData *coinsData, const Texture2D *coinSprite)
 void renderExit(const GameData *game)
 {
 	if (game->coinsData.remaininCoins == 0)
-		DrawTexture(game->sprites.exitOpen, game->exitPos.x * SPRITE_SIZE, game->exitPos.y * SPRITE_SIZE, WHITE);
+		DrawTexture(game->sprites.doorOpen, game->doorPos.x * SPRITE_SIZE, game->doorPos.y * SPRITE_SIZE, WHITE);
 	else
-		DrawTexture(game->sprites.exitClosed, game->exitPos.x * SPRITE_SIZE, game->exitPos.y * SPRITE_SIZE, WHITE);
+		DrawTexture(game->sprites.doorClosed, game->doorPos.x * SPRITE_SIZE, game->doorPos.y * SPRITE_SIZE, WHITE);
 }
 

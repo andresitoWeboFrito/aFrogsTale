@@ -121,11 +121,11 @@ void parseMap(GameData *game)
 				// add the coin to the array
 				addCoin(&game->coinsData, (Position){.x = x, .y = y});
 			}
-			else if (game->map[y][x] == 'E')
+			else if (game->map[y][x] == 'D')
 			{
 				// the exit door of the level
-				game->exitPos.x = x;
-				game->exitPos.y = y;
+				game->doorPos.x = x;
+				game->doorPos.y = y;
 			}
 		}
 	}
@@ -140,6 +140,7 @@ void addCoin(CoinsData *coinsData, Position pos)
 {
 	if (coinsData && coinsData->nCoins + 1 < MAX_COINS)
 	{
+		// TODO: give an error about there being to much coins?
 		// add a new coin
 		coinsData->coins[coinsData->nCoins].pos = pos;
 		coinsData->coins[coinsData->nCoins].collected = false;
@@ -160,18 +161,18 @@ bool checkMap(char **map)
 	 * 1. Surrounded by walls '#'
 	 * 2. Contains 1 player 'P'
 	 * 3. Contains atleast 1 coin 'C'
-	 * 4. Contains 1 exit 'E'
-	 * 5. TODO: enemies?
+	 * 4. Contains 1 exit door 'D'
+	 * 5. Can contain enemies 'E'
 	 */
 
 	if (!checkWalls(map))
 	{
-		printf("%sThe map is not completely closed!\n", TERM_RED);
+		printf("%sThe map is not completely closed!\n%s", TERM_RED, TERM_RESET);
 		return false;
 	}
 	else if (!checkItems(map))
 	{
-		printf("%sThe map doesn't have the correct number of Coins 'C', Players 'P', and/or Exits 'E'\n", TERM_RED);
+		printf("%sThe map doesn't have the correct number of Coins 'C', Players 'P', and/or Exits 'E'\n%s", TERM_RED, TERM_RESET);
 		return false;
 	}
 	else
@@ -238,7 +239,7 @@ bool checkItems(char **map)
 {
 	unsigned int playerCounter = 0;
 	unsigned int coinCounter = 0;
-	unsigned int exitCounter = 0;
+	unsigned int doorCounter = 0;
 
 	for (size_t y = 0; y < countLines(map); y++)
 	{
@@ -249,11 +250,11 @@ bool checkItems(char **map)
 			else if (map[y][x] == 'C')
 				++coinCounter;
 			else if (map[y][x] == 'E')
-				++exitCounter;
+				++doorCounter;
 		}
 	}
 
-	if (playerCounter == 1 && coinCounter >= 1 && exitCounter == 1)
+	if (playerCounter == 1 && coinCounter >= 1 && doorCounter == 1)
 		return true;
 	else
 		return false;

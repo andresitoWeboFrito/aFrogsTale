@@ -16,7 +16,7 @@ bool loadSprite(Texture2D *texture, const char *name)
 	*texture = LoadTexture(fullPath);
 	if (!IsTextureValid(*texture))
 	{
-		printf("%sUnable to load the %s sprite!\n", TERM_RED, name);
+		printf("%sUnable to load the %s sprite!\n%s", TERM_RED, name, TERM_RESET);
 		return false;
 	}
 	return true;
@@ -26,9 +26,9 @@ bool loadAllSprites(Sprites *sprites)
 {
 	if (!loadSprite(&sprites->coin, "coin.png"))
 		return false;
-	else if (!loadSprite(&sprites->exitClosed, "door_closed.png"))
+	else if (!loadSprite(&sprites->doorClosed, "door_closed.png"))
 		return false;
-	else if (!loadSprite(&sprites->exitOpen, "door_open.png"))
+	else if (!loadSprite(&sprites->doorOpen, "door_open.png"))
 		return false;
 	else if (!loadSprite(&sprites->ground, "ground.png"))
 		return false;

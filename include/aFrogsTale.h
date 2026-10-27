@@ -8,10 +8,13 @@
 // global consts
 #define SPRITE_SIZE 64
 #define MAX_COINS 100
+#define MAX_ENEMIES 100
 
 // escape codes for printf
 #define TERM_GREEN "\033[32m"
 #define TERM_RED "\033[31m"
+#define TERM_YELLOW "\033[33m"
+#define TERM_RESET "\033[0m"
 
 // enums
 typedef enum
@@ -49,8 +52,21 @@ typedef struct
 	size_t remaininCoins;
 } CoinsData;
 
-// TODO: create a struct with the info relevant to the exit(open, pos, ...)
+typedef struct
+{
+	Position pos;
+	Direction dir;
+	bool alive;
+} Enemy;
 
+typedef struct
+{
+	Enemy enemies[MAX_ENEMIES];
+	size_t nEnemies;
+} EnemiesData;
+
+// TODO: create a struct with the info relevant to the door(open, pos, ...)
+// TODO: create a struct with the info relevant to the player?
 typedef struct
 {
 	Texture2D playerRight;
@@ -58,8 +74,9 @@ typedef struct
 	Texture2D wall;
 	Texture2D ground;
 	Texture2D coin;
-	Texture2D exitClosed;
-	Texture2D exitOpen;
+	Texture2D doorClosed;
+	Texture2D doorOpen;
+	Texture2D enemy;
 } Sprites;
 
 typedef struct
@@ -70,10 +87,12 @@ typedef struct
 	size_t mapHeigth;
 	Position playerPos;
 	Direction playerLookDirection;
-	Position exitPos;
+	Position doorPos;
 	GameState state;
 	Sprites sprites;
 	CoinsData coinsData;
+	EnemiesData enemiesData;
+	size_t score;
 } GameData;
 
 /* Functions of map.c */
@@ -98,7 +117,7 @@ void renderExit(const GameData *game);
 void checkPressedKeys(GameData *game);
 Position calcNewPosition(Position oldPos, Direction direction);
 void checkMovementColisions(GameData *game, Direction playerDir);
-void checkCoins(CoinsData *coinsData, Position player);
+void checkCoins(CoinsData *coinsData, Position player, size_t *score);
 
 /* Functions of utils.c */
 bool isPosEqual(Position pos1, Position pos2);

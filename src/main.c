@@ -11,6 +11,7 @@ bool initGame(GameData *game)
 	game->playerLookDirection = Right;
 	game->coinsData.nCoins = 0;
 	game->state = Playing;
+	game->score = 0;
 
 	if (!checkMap(game->map))
 		return false;
@@ -24,6 +25,8 @@ bool initGame(GameData *game)
 
 	return true;
 }
+// TODO: enemies and combat!!
+// TODO: Score counter!
 
 int main(int argc, char **argv)
 {
@@ -59,10 +62,11 @@ int main(int argc, char **argv)
 	CloseWindow();
 
 	if (game.state == Won)
-		printf("%sYou Won!\n", TERM_GREEN);
+		printf("%sYou Won!\n%s", TERM_GREEN, TERM_RESET);
 	else
-		printf("%sYou didn't won, but hey you can always try again ;)\n", TERM_RED);
+		// TODO: this has to be color coded, to be well displayed against the raylib logger. But which color?
+		printf("%sYou didn't won, but hey you can always try again ;)\n", TERM_YELLOW);
 
-	// TODO: print score once its clear what it should be
+	printf("%sYour score was: %lu\n", TERM_GREEN, game.score);
 	return 0;
 }
