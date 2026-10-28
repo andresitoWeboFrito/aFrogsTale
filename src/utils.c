@@ -30,6 +30,8 @@ bool loadAllSprites(Sprites *sprites)
 		return false;
 	else if (!loadSprite(&sprites->doorOpen, "door_open.png"))
 		return false;
+	else if (!loadSprite(&sprites->enemy, "enemy.png"))
+		return false;
 	else if (!loadSprite(&sprites->ground, "ground.png"))
 		return false;
 	else if (!loadSprite(&sprites->playerLeft, "player_left.png"))

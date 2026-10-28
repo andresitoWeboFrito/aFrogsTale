@@ -16,6 +16,9 @@ void checkPressedKeys(GameData *game)
 		checkMovementColisions(game, Down);
 	else if (IsKeyPressed(KEY_W))
 		checkMovementColisions(game, Up);
+	// TODO: use another key to attack
+	else if (IsKeyPressed(KEY_F))
+		playerAttack(game->playerPos, game->playerLookDirection, &game->enemiesData);
 }
 
 /**
@@ -27,8 +30,8 @@ void checkMovementColisions(GameData *game, Direction playerDir)
 	// calc new Pos
 	Position newPos = calcNewPosition(game->playerPos, playerDir);
 
-	// TODO: better way to do this? Can i colide with an enemy?
-	if (!(game->map[newPos.y][newPos.x] == '#'))
+	// TODO: enemies can and will move, should check against a fixed pos
+	if (!(game->map[newPos.y][newPos.x] == '#') && !(game->map[newPos.y][newPos.x] == 'E'))
 	{
 		// If it is not wall, update the position
 		game->playerPos = newPos;
@@ -40,6 +43,7 @@ void checkMovementColisions(GameData *game, Direction playerDir)
 		game->state = Won;
 	}
 	// check against enemy? -> dmg? (maybe this is for a check to happen EVERY time slice)
+	// TODO: maybe dont block the player into colliding with an enemy. but dont let them ocuppy the same tile
 }
 
 Position calcNewPosition(Position oldPos, Direction direction)

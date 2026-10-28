@@ -106,12 +106,14 @@ bool checkMap(char **map);
 bool checkWalls(char **map);
 bool checkItems(char **map);
 void addCoin(CoinsData *coinsData, Position pos);
+void addEnemy(EnemiesData *enemiesData, Position pos);
 
 /* Functions of render.c */
 void renderBackground(char **map, const Sprites *sprites);
 void renderPlayer(Position playerPos, Direction playerLookDirection, const Sprites *sprites);
 void renderCoins(const CoinsData *coinsData, const Texture2D *coinSprite);
 void renderExit(const GameData *game);
+void renderEnemies(const EnemiesData *enemiesData, const Texture2D *enemySprite);
 
 /* Functions of input.c */
 void checkPressedKeys(GameData *game);
@@ -123,3 +125,7 @@ void checkCoins(CoinsData *coinsData, Position player, size_t *score);
 bool isPosEqual(Position pos1, Position pos2);
 bool loadSprite(Texture2D *texture, const char *name);
 bool loadAllSprites(Sprites *sprites);
+
+/* Functions of combat.c */
+void playerAttack(Position playerPos, Direction playerDir, EnemiesData *enemiesData);
+Enemy *findAttackedEnemy(Position playerPos, Direction attackDir, const EnemiesData *enemiesData);

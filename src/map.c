@@ -127,6 +127,11 @@ void parseMap(GameData *game)
 				game->doorPos.x = x;
 				game->doorPos.y = y;
 			}
+			else if (game->map[y][x] == 'E')
+			{
+				// add an enemy to the array
+				addEnemy(&game->enemiesData, (Position){.x = x, .y = y});
+			}
 		}
 	}
 
@@ -140,7 +145,6 @@ void addCoin(CoinsData *coinsData, Position pos)
 {
 	if (coinsData && coinsData->nCoins + 1 < MAX_COINS)
 	{
-		// TODO: give an error about there being to much coins?
 		// add a new coin
 		coinsData->coins[coinsData->nCoins].pos = pos;
 		coinsData->coins[coinsData->nCoins].collected = false;
@@ -148,9 +152,29 @@ void addCoin(CoinsData *coinsData, Position pos)
 	}
 	else
 	{
-		// null ptr or maximun number of coins reached
+		// null ptr or maximum number of coins reached
 		if (coinsData->nCoins + 1 >= MAX_COINS)
 			printf("Maximum number of coins reached!\n");
+		// TODO: make program fail?
+	}
+}
+
+void addEnemy(EnemiesData *enemiesData, Position pos)
+{
+	if (enemiesData && enemiesData->nEnemies + 1 < MAX_ENEMIES)
+	{
+		// add a new enemy
+		enemiesData->enemies[enemiesData->nEnemies].alive = true;
+		enemiesData->enemies[enemiesData->nEnemies].dir = Left;
+		enemiesData->enemies[enemiesData->nEnemies].pos = pos;
+		enemiesData->nEnemies++;
+	}
+	else
+	{
+		// null ptr or maximum number of coins reached
+		if (enemiesData->nEnemies + 1 >= MAX_ENEMIES)
+			printf("Maximum number of enemies reached!\n");
+		// TODO: make program fail?
 	}
 }
 
@@ -249,7 +273,7 @@ bool checkItems(char **map)
 				++playerCounter;
 			else if (map[y][x] == 'C')
 				++coinCounter;
-			else if (map[y][x] == 'E')
+			else if (map[y][x] == 'D')
 				++doorCounter;
 		}
 	}

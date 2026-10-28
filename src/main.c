@@ -56,6 +56,7 @@ int main(int argc, char **argv)
 		renderBackground(game.map, &game.sprites);
 		renderCoins(&game.coinsData, &game.sprites.coin);
 		renderExit(&game);
+		renderEnemies(&game.enemiesData, &game.sprites.enemy);
 		renderPlayer(game.playerPos, game.playerLookDirection, &game.sprites);
 		EndDrawing();
 	}

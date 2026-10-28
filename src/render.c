@@ -31,9 +31,10 @@ void renderCoins(const CoinsData *coinsData, const Texture2D *coinSprite)
 {
 	for (size_t i = 0; i < coinsData->nCoins; i++)
 	{
-		if (!coinsData->coins[i].collected)
+		const Coin *coin = &coinsData->coins[i];
+		if (!coin->collected)
 		{
-			DrawTexture(*coinSprite, coinsData->coins[i].pos.x * SPRITE_SIZE, coinsData->coins[i].pos.y * SPRITE_SIZE, WHITE);
+			DrawTexture(*coinSprite, coin->pos.x * SPRITE_SIZE, coin->pos.y * SPRITE_SIZE, WHITE);
 		}
 	}
 }
@@ -46,3 +47,16 @@ void renderExit(const GameData *game)
 		DrawTexture(game->sprites.doorClosed, game->doorPos.x * SPRITE_SIZE, game->doorPos.y * SPRITE_SIZE, WHITE);
 }
 
+void renderEnemies(const EnemiesData *enemiesData, const Texture2D *enemySprite)
+{
+	for (size_t i = 0; i < enemiesData->nEnemies; i++)
+	{
+		const Enemy *enemy = &enemiesData->enemies[i];
+
+		if (enemy->alive)
+		{
+			// at the moment there is only one sprite to render, later I'll have to check also the direction
+			DrawTexture(*enemySprite, enemy->pos.x * SPRITE_SIZE, enemy->pos.y * SPRITE_SIZE, WHITE);
+		}
+	}
+}
