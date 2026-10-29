@@ -120,6 +120,7 @@ void checkPressedKeys(GameData *game);
 Position calcNewPosition(Position oldPos, Direction direction);
 void checkMovementColisions(GameData *game, Direction playerDir);
 void checkCoins(CoinsData *coinsData, Position player, size_t *score);
+bool chrashingIntoEnemy(Position playerPos, const EnemiesData *enemiesData);
 
 /* Functions of utils.c */
 bool isPosEqual(Position pos1, Position pos2);

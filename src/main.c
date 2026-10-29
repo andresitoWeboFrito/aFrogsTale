@@ -26,7 +26,7 @@ bool initGame(GameData *game)
 	return true;
 }
 // TODO: enemies and combat!!
-// TODO: Score counter!
+// TODO: Real score counter!
 
 int main(int argc, char **argv)
 {

@@ -30,10 +30,9 @@ void checkMovementColisions(GameData *game, Direction playerDir)
 	// calc new Pos
 	Position newPos = calcNewPosition(game->playerPos, playerDir);
 
-	// TODO: enemies can and will move, should check against a fixed pos
-	if (!(game->map[newPos.y][newPos.x] == '#') && !(game->map[newPos.y][newPos.x] == 'E'))
+	if (!(game->map[newPos.y][newPos.x] == '#') && !chrashingIntoEnemy(newPos, &game->enemiesData))
 	{
-		// If it is not wall, update the position
+		// If it is not wall or not a (live) enemy, update the position
 		game->playerPos = newPos;
 	}
 	checkCoins(&game->coinsData, game->playerPos, &game->score);
@@ -86,4 +85,19 @@ void checkCoins(CoinsData *coinsData, Position player, size_t *score)
 			return;
 		}
 	}
+}
+
+// TODO: im not sure about this name
+bool chrashingIntoEnemy(Position playerPos, const EnemiesData *enemiesData)
+{
+	for (size_t i = 0; i < enemiesData->nEnemies; i++)
+	{
+		const Enemy *enemy = &enemiesData->enemies[i];
+
+		if (enemy->alive && isPosEqual(enemy->pos, playerPos))
+		{
+			return true;
+		}
+	}
+	return false;
 }

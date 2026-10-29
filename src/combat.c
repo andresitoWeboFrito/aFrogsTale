@@ -10,6 +10,7 @@ void playerAttack(Position playerPos, Direction playerDir, EnemiesData *enemiesD
 	if (attackedEnemy)
 	{
 		printf("Attacking the enemy at pos{%lu, %lu}\n", attackedEnemy->pos.x, attackedEnemy->pos.y);
+		attackedEnemy->alive = false;
 	}
 	else
 	{
