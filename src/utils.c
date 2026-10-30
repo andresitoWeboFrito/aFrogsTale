@@ -43,3 +43,29 @@ bool loadAllSprites(Sprites *sprites)
 	else
 		return true;
 }
+
+Position calcNewPosition(Position oldPos, Direction direction)
+{
+	Position newPos;
+	if (direction == Left)
+	{
+		newPos.x = oldPos.x - 1;
+		newPos.y = oldPos.y;
+	}
+	else if (direction == Right)
+	{
+		newPos.x = oldPos.x + 1;
+		newPos.y = oldPos.y;
+	}
+	else if (direction == Up)
+	{
+		newPos.x = oldPos.x;
+		newPos.y = oldPos.y - 1;
+	}
+	else // direction == Down
+	{
+		newPos.x = oldPos.x;
+		newPos.y = oldPos.y + 1;
+	}
+	return newPos;
+}

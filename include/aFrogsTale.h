@@ -117,16 +117,18 @@ void renderEnemies(const EnemiesData *enemiesData, const Texture2D *enemySprite)
 
 /* Functions of input.c */
 void checkPressedKeys(GameData *game);
-Position calcNewPosition(Position oldPos, Direction direction);
-void checkMovementColisions(GameData *game, Direction playerDir);
-void checkCoins(CoinsData *coinsData, Position player, size_t *score);
-bool chrashingIntoEnemy(Position playerPos, const EnemiesData *enemiesData);
 
 /* Functions of utils.c */
 bool isPosEqual(Position pos1, Position pos2);
 bool loadSprite(Texture2D *texture, const char *name);
 bool loadAllSprites(Sprites *sprites);
+Position calcNewPosition(Position oldPos, Direction direction);
 
 /* Functions of combat.c */
 void playerAttack(Position playerPos, Direction playerDir, EnemiesData *enemiesData);
 Enemy *findAttackedEnemy(Position playerPos, Direction attackDir, const EnemiesData *enemiesData);
+
+/* Functions of collisions.c */
+void checkCollisionWithCoins(CoinsData *coinsData, Position player, size_t *score);
+bool isCollidingWithEnemies(Position playerPos, const EnemiesData *enemiesData);
+void checkMovementCollisions(GameData *game, Direction playerDir);

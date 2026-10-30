@@ -9,7 +9,8 @@ SRC = 	src/main.c \
 		src/render.c \
 		src/input.c \
 		src/utils.c \
-		src/combat.c 
+		src/combat.c  \
+		src/collisions.c
 
 OBJ = $(SRC:.c=.o)
 
