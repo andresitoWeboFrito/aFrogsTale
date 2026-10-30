@@ -39,14 +39,21 @@ void checkMovementCollisions(GameData *game, Direction playerDir)
 	// calc new Pos
 	Position newPos = calcNewPosition(game->player.pos, playerDir);
 
-	// TODO: maybe dont block the player into colliding with an enemy. but dont let them ocuppy the same tile
-	if (!(game->map[newPos.y][newPos.x] == '#') && !isCollidingWithEnemies(newPos, &game->enemiesData))
+	if (isCollidingWithEnemies(newPos, &game->enemiesData))
+	{
+		printf("Bumping into enemy at pos {%lu, %lu}\n", newPos.x, newPos.y);
+		// player collides to an enemy
+		bumpIntoEnemy(&game->player, newPos, &game->sprites);
+		// takeDamage();
+	}
+	else if (!(game->map[newPos.y][newPos.x] == '#'))
 	{
 		// If it is not wall or not a (live) enemy, update the position
 		game->player.pos = newPos;
 	}
+	// check if a coin is collected
 	checkCollisionWithCoins(&game->coinsData, game->player.pos, &game->score);
-	// check against door
+	// check if we are at the (open) door
 	if (isPosEqual(game->player.pos, game->doorPos) && game->coinsData.remaininCoins == 0)
 	{
 		game->state = Won;

@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 // global consts
 #define SPRITE_SIZE 64
@@ -138,3 +139,6 @@ Enemy *findAttackedEnemy(Position playerPos, Direction attackDir, const EnemiesD
 void checkCollisionWithCoins(CoinsData *coinsData, Position player, size_t *score);
 bool isCollidingWithEnemies(Position playerPos, const EnemiesData *enemiesData);
 void checkMovementCollisions(GameData *game, Direction playerDir);
+
+/* Functions of animations.c */
+void bumpIntoEnemy(const Player *player, Position enemyPosition, const Sprites *sprites);

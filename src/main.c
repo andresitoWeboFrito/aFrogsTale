@@ -72,7 +72,3 @@ int main(int argc, char **argv)
 	printf("%sYour score was: %lu\n", TERM_GREEN, game.score);
 	return 0;
 }
-
-void printGame()
-{
-}
