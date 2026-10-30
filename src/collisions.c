@@ -37,17 +37,17 @@ bool isCollidingWithEnemies(Position playerPos, const EnemiesData *enemiesData)
 void checkMovementCollisions(GameData *game, Direction playerDir)
 {
 	// calc new Pos
-	Position newPos = calcNewPosition(game->playerPos, playerDir);
+	Position newPos = calcNewPosition(game->player.pos, playerDir);
 
 	// TODO: maybe dont block the player into colliding with an enemy. but dont let them ocuppy the same tile
 	if (!(game->map[newPos.y][newPos.x] == '#') && !isCollidingWithEnemies(newPos, &game->enemiesData))
 	{
 		// If it is not wall or not a (live) enemy, update the position
-		game->playerPos = newPos;
+		game->player.pos = newPos;
 	}
-	checkCollisionWithCoins(&game->coinsData, game->playerPos, &game->score);
+	checkCollisionWithCoins(&game->coinsData, game->player.pos, &game->score);
 	// check against door
-	if (isPosEqual(game->playerPos, game->doorPos) && game->coinsData.remaininCoins == 0)
+	if (isPosEqual(game->player.pos, game->doorPos) && game->coinsData.remaininCoins == 0)
 	{
 		game->state = Won;
 	}

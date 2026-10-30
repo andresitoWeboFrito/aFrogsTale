@@ -113,8 +113,7 @@ void parseMap(GameData *game)
 		{
 			if (game->map[y][x] == 'P')
 			{
-				game->playerPos.x = x;
-				game->playerPos.y = y;
+				game->player.pos = (Position){.x = x, .y = y};
 			}
 			else if (game->map[y][x] == 'C')
 			{

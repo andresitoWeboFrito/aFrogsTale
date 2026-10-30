@@ -17,14 +17,14 @@ void renderBackground(char **map, const Sprites *sprites)
 		}
 	}
 }
+void renderPlayer(const Player *player, const Sprites *sprites)
 
-void renderPlayer(Position playerPos, Direction playerLookDirection, const Sprites *sprites)
 {
 	// This will be more complex when I have some kind of player animations
-	if (playerLookDirection == Right)
-		DrawTexture(sprites->playerRight, playerPos.x * SPRITE_SIZE, playerPos.y * SPRITE_SIZE, WHITE);
+	if (player->lookDir == Right)
+		DrawTexture(sprites->playerRight, player->pos.x * SPRITE_SIZE, player->pos.y * SPRITE_SIZE, WHITE);
 	else
-		DrawTexture(sprites->playerLeft, playerPos.x * SPRITE_SIZE, playerPos.y * SPRITE_SIZE, WHITE);
+		DrawTexture(sprites->playerLeft, player->pos.x * SPRITE_SIZE, player->pos.y * SPRITE_SIZE, WHITE);
 }
 
 void renderCoins(const CoinsData *coinsData, const Texture2D *coinSprite)

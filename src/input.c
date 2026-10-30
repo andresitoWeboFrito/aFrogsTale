@@ -5,12 +5,12 @@ void checkPressedKeys(GameData *game)
 	if (IsKeyPressed(KEY_D))
 	{
 		checkMovementCollisions(game, Right);
-		game->playerLookDirection = Right;
+		game->player.lookDir = Right;
 	}
 	else if (IsKeyPressed(KEY_A))
 	{
 		checkMovementCollisions(game, Left);
-		game->playerLookDirection = Left;
+		game->player.lookDir = Left;
 	}
 	else if (IsKeyPressed(KEY_S))
 		checkMovementCollisions(game, Down);
@@ -18,5 +18,5 @@ void checkPressedKeys(GameData *game)
 		checkMovementCollisions(game, Up);
 	// TODO: use another key to attack
 	else if (IsKeyPressed(KEY_F))
-		playerAttack(game->playerPos, game->playerLookDirection, &game->enemiesData);
+		playerAttack(&game->player, &game->enemiesData);
 }

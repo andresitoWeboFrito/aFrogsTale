@@ -65,8 +65,15 @@ typedef struct
 	size_t nEnemies;
 } EnemiesData;
 
+typedef struct
+{
+	Position pos;
+	Direction lookDir;
+	unsigned int lives;
+} Player;
+
 // TODO: create a struct with the info relevant to the door(open, pos, ...)
-// TODO: create a struct with the info relevant to the player?
+
 typedef struct
 {
 	Texture2D playerRight;
@@ -85,8 +92,7 @@ typedef struct
 	char *mapPath;
 	size_t mapWidth;
 	size_t mapHeigth;
-	Position playerPos;
-	Direction playerLookDirection;
+	Player player;
 	Position doorPos;
 	GameState state;
 	Sprites sprites;
@@ -110,7 +116,7 @@ void addEnemy(EnemiesData *enemiesData, Position pos);
 
 /* Functions of render.c */
 void renderBackground(char **map, const Sprites *sprites);
-void renderPlayer(Position playerPos, Direction playerLookDirection, const Sprites *sprites);
+void renderPlayer(const Player *player, const Sprites *sprites);
 void renderCoins(const CoinsData *coinsData, const Texture2D *coinSprite);
 void renderExit(const GameData *game);
 void renderEnemies(const EnemiesData *enemiesData, const Texture2D *enemySprite);
@@ -125,7 +131,7 @@ bool loadAllSprites(Sprites *sprites);
 Position calcNewPosition(Position oldPos, Direction direction);
 
 /* Functions of combat.c */
-void playerAttack(Position playerPos, Direction playerDir, EnemiesData *enemiesData);
+void playerAttack(const Player *player, EnemiesData *enemiesData);
 Enemy *findAttackedEnemy(Position playerPos, Direction attackDir, const EnemiesData *enemiesData);
 
 /* Functions of collisions.c */

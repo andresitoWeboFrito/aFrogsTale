@@ -1,12 +1,12 @@
 #include "aFrogsTale.h"
 
-// TODO: right now the direction will only be left or right
-void playerAttack(Position playerPos, Direction playerDir, EnemiesData *enemiesData)
+// TODO: right now the attack direction will only be left or right
+void playerAttack(const Player *player, EnemiesData *enemiesData)
 {
 	// TODO: play attack animation
 
 	// figure out if there is any enemy in the direction of attack
-	Enemy *attackedEnemy = findAttackedEnemy(playerPos, playerDir, enemiesData);
+	Enemy *attackedEnemy = findAttackedEnemy(player->pos, player->lookDir, enemiesData);
 	if (attackedEnemy)
 	{
 		printf("Attacking the enemy at pos{%lu, %lu}\n", attackedEnemy->pos.x, attackedEnemy->pos.y);

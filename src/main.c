@@ -8,7 +8,8 @@ bool initGame(GameData *game)
 		return false;
 	}
 
-	game->playerLookDirection = Right;
+	game->player.lookDir = Right;
+	game->player.lives = 3;
 	game->coinsData.nCoins = 0;
 	game->state = Playing;
 	game->score = 0;
@@ -57,7 +58,7 @@ int main(int argc, char **argv)
 		renderCoins(&game.coinsData, &game.sprites.coin);
 		renderExit(&game);
 		renderEnemies(&game.enemiesData, &game.sprites.enemy);
-		renderPlayer(game.playerPos, game.playerLookDirection, &game.sprites);
+		renderPlayer(&game.player, &game.sprites);
 		EndDrawing();
 	}
 	CloseWindow();
@@ -70,4 +71,8 @@ int main(int argc, char **argv)
 
 	printf("%sYour score was: %lu\n", TERM_GREEN, game.score);
 	return 0;
+}
+
+void printGame()
+{
 }
