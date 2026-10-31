@@ -1,5 +1,6 @@
 #include "aFrogsTale.h"
 
+// TODO: fix animations!
 // TODO: the animations should not be blocking?
 void bumpIntoEnemy(const Player *player, Position enemyPosition, const Sprites *sprites)
 {

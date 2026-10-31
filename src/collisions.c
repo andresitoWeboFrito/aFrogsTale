@@ -42,9 +42,11 @@ void checkMovementCollisions(GameData *game, Direction playerDir)
 	if (isCollidingWithEnemies(newPos, &game->enemiesData))
 	{
 		printf("Bumping into enemy at pos {%lu, %lu}\n", newPos.x, newPos.y);
-		// player collides to an enemy
+		// TODO: fix the animation
 		bumpIntoEnemy(&game->player, newPos, &game->sprites);
-		// takeDamage();
+		game->player.lives--;
+		printf("%sPlayer took damage! Remaining Lives: %u%s\n", TERM_RED, game->player.lives, TERM_RESET);
+		// TODO: i have to make sure that the lives are atleas 1 when doing lives-- because could happen that the value underflows
 	}
 	else if (!(game->map[newPos.y][newPos.x] == '#'))
 	{
@@ -53,9 +55,14 @@ void checkMovementCollisions(GameData *game, Direction playerDir)
 	}
 	// check if a coin is collected
 	checkCollisionWithCoins(&game->coinsData, game->player.pos, &game->score);
-	// check if we are at the (open) door
+
+	// Update the game status
 	if (isPosEqual(game->player.pos, game->doorPos) && game->coinsData.remaininCoins == 0)
 	{
 		game->state = Won;
+	}
+	else if (game->player.lives == 0)
+	{
+		game->state = Died;
 	}
 }

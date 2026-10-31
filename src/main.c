@@ -11,6 +11,7 @@ bool initGame(GameData *game)
 	game->player.lookDir = Right;
 	game->player.lives = 3;
 	game->coinsData.nCoins = 0;
+	game->enemiesData.nEnemies = 0;
 	game->state = Playing;
 	game->score = 0;
 
@@ -26,7 +27,6 @@ bool initGame(GameData *game)
 
 	return true;
 }
-// TODO: enemies and combat!!
 // TODO: Real score counter!
 
 int main(int argc, char **argv)
