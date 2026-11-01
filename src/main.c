@@ -32,6 +32,7 @@ bool initGame(GameData *game)
 int main(int argc, char **argv)
 {
 	GameData game;
+	float timer = 0;
 
 	if (argc == 2)
 	{
@@ -48,8 +49,9 @@ int main(int argc, char **argv)
 		return 0;
 	while (!WindowShouldClose() && game.state == Playing)
 	{
-		// check for pressed keys
-		checkPressedKeys(&game);
+		// Check the player inputs
+		timer = timer + GetFrameTime();
+		checkPressedKeys(&game, &timer);
 
 		// draw each frame
 		BeginDrawing();

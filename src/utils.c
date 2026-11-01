@@ -22,8 +22,29 @@ bool loadSprite(Texture2D *texture, const char *name)
 	return true;
 }
 
+bool loadAnimation(Animation *animation, const char *name, unsigned int nFrames)
+{
+	// Build the full path to the file
+	char fullPath[256];
+	fullPath[0] = '\0';
+	strcat(fullPath, "sprites/");
+	strncat(fullPath, name, sizeof(fullPath) - (sizeof(name) + 1));
+
+	animation->spriteSheet = LoadTexture(fullPath);
+	if (!IsTextureValid(animation->spriteSheet))
+	{
+		printf("%sUnable to load the %s sprite sheet!\n%s", TERM_RED, name, TERM_RESET);
+		return false;
+	}
+
+	animation->nFrames = nFrames;
+	animation->actualFrame = 0;
+	return true;
+}
+
 bool loadAllSprites(Sprites *sprites)
 {
+	// Sprites
 	if (!loadSprite(&sprites->coin, "coin.png"))
 		return false;
 	else if (!loadSprite(&sprites->doorClosed, "door_closed.png"))
@@ -39,6 +60,12 @@ bool loadAllSprites(Sprites *sprites)
 	else if (!loadSprite(&sprites->playerRight, "player_right.png"))
 		return false;
 	else if (!loadSprite(&sprites->wall, "wall.png"))
+		return false;
+
+	// Animations
+	else if (!loadAnimation(&sprites->playerAttackRight, "player_attack_right.png", 4))
+		return false;
+	else if (!loadAnimation(&sprites->playerAttackLeft, "player_attack_left.png", 4))
 		return false;
 	else
 		return true;

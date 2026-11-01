@@ -19,7 +19,7 @@ void bumpIntoEnemy(const Player *player, Position enemyPosition, const Sprites *
 			{
 				DrawTexture(sprites->playerLeft, (player->pos.x * SPRITE_SIZE + i), player->pos.y * SPRITE_SIZE, WHITE);
 			}
-			sleep(1); //TODO: this has to bee less time
+			sleep(1); // TODO: this has to bee less time
 		}
 	}
 	else
@@ -36,7 +36,11 @@ void bumpIntoEnemy(const Player *player, Position enemyPosition, const Sprites *
 			{
 				DrawTexture(sprites->playerLeft, player->pos.x * SPRITE_SIZE, (player->pos.y * SPRITE_SIZE + i), WHITE);
 			}
-			sleep(1); //TODO: this has to be less time
+			sleep(1); // TODO: this has to be less time
 		}
 	}
+}
+
+void playerAttackAnimation()
+{
 }

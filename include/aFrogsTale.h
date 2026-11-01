@@ -10,6 +10,7 @@
 #define SPRITE_SIZE 64
 #define MAX_COINS 100
 #define MAX_ENEMIES 100
+#define MOVEMENT_TIMER 0.2f
 
 // escape codes for printf
 #define TERM_GREEN "\033[32m"
@@ -75,6 +76,14 @@ typedef struct
 
 // TODO: create a struct with the info relevant to the door(open, pos, ...)
 
+// TODO: do I also need a flag for when it is playing?
+typedef struct
+{
+	Texture2D spriteSheet;
+	unsigned int nFrames;
+	unsigned int actualFrame;
+} Animation;
+
 typedef struct
 {
 	Texture2D playerRight;
@@ -85,6 +94,8 @@ typedef struct
 	Texture2D doorClosed;
 	Texture2D doorOpen;
 	Texture2D enemy;
+	Animation playerAttackRight;
+	Animation playerAttackLeft;
 } Sprites;
 
 typedef struct
@@ -123,11 +134,12 @@ void renderExit(const GameData *game);
 void renderEnemies(const EnemiesData *enemiesData, const Texture2D *enemySprite);
 
 /* Functions of input.c */
-void checkPressedKeys(GameData *game);
+void checkPressedKeys(GameData *game, float *timer);
 
 /* Functions of utils.c */
 bool isPosEqual(Position pos1, Position pos2);
 bool loadSprite(Texture2D *texture, const char *name);
+bool loadAnimation(Animation *animation, const char *name, unsigned int nFrames);
 bool loadAllSprites(Sprites *sprites);
 Position calcNewPosition(Position oldPos, Direction direction);
 
