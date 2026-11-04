@@ -10,6 +10,7 @@ bool initGame(GameData *game)
 
 	game->player.lookDir = Right;
 	game->player.lives = 3;
+	game->player.currentAnimation = None;
 	game->coinsData.nCoins = 0;
 	game->enemiesData.nEnemies = 0;
 	game->state = Playing;
@@ -33,6 +34,7 @@ int main(int argc, char **argv)
 {
 	GameData game;
 	float timer = 0;
+	unsigned int frameCounter = 0;
 
 	if (argc == 2)
 	{
@@ -60,8 +62,12 @@ int main(int argc, char **argv)
 		renderCoins(&game.coinsData, &game.sprites.coin);
 		renderExit(&game);
 		renderEnemies(&game.enemiesData, &game.sprites.enemy);
-		renderPlayer(&game.player, &game.sprites);
+		renderPlayer(&game.player, &game.sprites, &frameCounter);
 		EndDrawing();
+
+		// update the frame counter
+
+		++frameCounter;
 	}
 	CloseWindow();
 

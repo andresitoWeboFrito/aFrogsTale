@@ -11,6 +11,7 @@
 #define MAX_COINS 100
 #define MAX_ENEMIES 100
 #define MOVEMENT_TIMER 0.2f
+#define ANIMATION_SPEED 10
 
 // escape codes for printf
 #define TERM_GREEN "\033[32m"
@@ -33,6 +34,13 @@ typedef enum
 	Won,
 	Died
 } GameState;
+
+typedef enum
+{
+	None,
+	BasicAttackRight,
+	BasicAttackLeft
+} PlayerAnimation;
 
 // structs
 typedef struct
@@ -72,11 +80,12 @@ typedef struct
 	Position pos;
 	Direction lookDir;
 	unsigned int lives;
+	PlayerAnimation currentAnimation;
 } Player;
 
 // TODO: create a struct with the info relevant to the door(open, pos, ...)
 
-// TODO: do I also need a flag for when it is playing?
+// TODO: do I also need a flag for when the animation it is playing?
 typedef struct
 {
 	Texture2D spriteSheet;
@@ -128,10 +137,11 @@ void addEnemy(EnemiesData *enemiesData, Position pos);
 
 /* Functions of render.c */
 void renderBackground(char **map, const Sprites *sprites);
-void renderPlayer(const Player *player, const Sprites *sprites);
+void renderPlayer(Player *player, Sprites *sprites, unsigned int *frameCounter);
 void renderCoins(const CoinsData *coinsData, const Texture2D *coinSprite);
 void renderExit(const GameData *game);
 void renderEnemies(const EnemiesData *enemiesData, const Texture2D *enemySprite);
+void renderAnimation(Animation *animation, Position pos, PlayerAnimation *currentAnimation);
 
 /* Functions of input.c */
 void checkPressedKeys(GameData *game, float *timer);
@@ -144,7 +154,7 @@ bool loadAllSprites(Sprites *sprites);
 Position calcNewPosition(Position oldPos, Direction direction);
 
 /* Functions of combat.c */
-void playerAttack(const Player *player, EnemiesData *enemiesData);
+void playerAttack(Player *player, EnemiesData *enemiesData);
 Enemy *findAttackedEnemy(Position playerPos, Direction attackDir, const EnemiesData *enemiesData);
 
 /* Functions of collisions.c */

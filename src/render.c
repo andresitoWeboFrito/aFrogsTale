@@ -17,11 +17,57 @@ void renderBackground(char **map, const Sprites *sprites)
 		}
 	}
 }
-void renderPlayer(const Player *player, const Sprites *sprites)
 
+// TODO: maybe move the current animation to be done outside of the function once the animation is done?
+// or change the PlayerAnimation::none animation to be a null pointer to animation struct?
+void renderAnimation(Animation *animation, Position pos, PlayerAnimation *currentAnimation)
 {
-	// This will be more complex when I have some kind of player animations
-	if (player->lookDir == Right)
+	// TODO: maybe put the rectangle with the Animation struct to not create it eeevery time
+	// Create the rectangle to take out only one sprite from the sprite sheet
+	Rectangle frameRectangle = {0.0f, 0.0f, (float)animation->spriteSheet.width / animation->nFrames, (float)animation->spriteSheet.height};
+
+	// Move the rectangle to the current frame from the animation
+	frameRectangle.x = SPRITE_SIZE * animation->actualFrame;
+
+	Vector2 posVector = {.x = pos.x * SPRITE_SIZE, .y = pos.y * SPRITE_SIZE};
+
+	DrawTextureRec(animation->spriteSheet, frameRectangle, posVector, WHITE);
+	if (animation->actualFrame < animation->nFrames)
+	{
+		animation->actualFrame++;
+	}
+	else
+	{
+		animation->actualFrame = 0;
+		*currentAnimation = None;
+	}
+}
+
+void renderPlayer(Player *player, Sprites *sprites, unsigned int *frameCounter)
+{
+	// TODO: do i need some kind of check to stay in the animation until it has finished?
+	if (player->currentAnimation != None)
+	{
+		if (*frameCounter >= ANIMATION_SPEED)
+		{
+			/*
+			 * TODO: move the rendering of the animations to outside?
+			 * Because all of them should be updated at the same time
+			 */
+
+			*frameCounter = 0;
+
+			if (player->currentAnimation == BasicAttackRight)
+			{
+				renderAnimation(&sprites->playerAttackRight, player->pos, &player->currentAnimation);
+			}
+			else if (player->currentAnimation == BasicAttackLeft)
+			{
+				renderAnimation(&sprites->playerAttackLeft, player->pos, &player->currentAnimation);
+			}
+		}
+	}
+	else if (player->lookDir == Right)
 		DrawTexture(sprites->playerRight, player->pos.x * SPRITE_SIZE, player->pos.y * SPRITE_SIZE, WHITE);
 	else
 		DrawTexture(sprites->playerLeft, player->pos.x * SPRITE_SIZE, player->pos.y * SPRITE_SIZE, WHITE);
