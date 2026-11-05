@@ -91,6 +91,7 @@ typedef struct
 	Texture2D spriteSheet;
 	unsigned int nFrames;
 	unsigned int actualFrame;
+	bool live;
 } Animation;
 
 typedef struct
@@ -137,11 +138,12 @@ void addEnemy(EnemiesData *enemiesData, Position pos);
 
 /* Functions of render.c */
 void renderBackground(char **map, const Sprites *sprites);
-void renderPlayer(Player *player, Sprites *sprites, unsigned int *frameCounter);
+void renderPlayer(Player *player, Sprites *sprites);
 void renderCoins(const CoinsData *coinsData, const Texture2D *coinSprite);
 void renderExit(const GameData *game);
 void renderEnemies(const EnemiesData *enemiesData, const Texture2D *enemySprite);
-void renderAnimation(Animation *animation, Position pos, PlayerAnimation *currentAnimation);
+void renderAnimation(Animation *animation, Position pos);
+void updateAnimations(unsigned int *frameCounter, Sprites *sprites, Player *player);
 
 /* Functions of input.c */
 void checkPressedKeys(GameData *game, float *timer);
@@ -154,7 +156,7 @@ bool loadAllSprites(Sprites *sprites);
 Position calcNewPosition(Position oldPos, Direction direction);
 
 /* Functions of combat.c */
-void playerAttack(Player *player, EnemiesData *enemiesData);
+void playerAttack(Player *player, EnemiesData *enemiesData, Sprites *sprites);
 Enemy *findAttackedEnemy(Position playerPos, Direction attackDir, const EnemiesData *enemiesData);
 
 /* Functions of collisions.c */

@@ -39,6 +39,7 @@ bool loadAnimation(Animation *animation, const char *name, unsigned int nFrames)
 
 	animation->nFrames = nFrames;
 	animation->actualFrame = 0;
+	animation->live = false;
 	return true;
 }
 

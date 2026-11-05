@@ -20,7 +20,7 @@ void renderBackground(char **map, const Sprites *sprites)
 
 // TODO: maybe move the current animation to be done outside of the function once the animation is done?
 // or change the PlayerAnimation::none animation to be a null pointer to animation struct?
-void renderAnimation(Animation *animation, Position pos, PlayerAnimation *currentAnimation)
+void renderAnimation(Animation *animation, Position pos)
 {
 	// TODO: maybe put the rectangle with the Animation struct to not create it eeevery time
 	// Create the rectangle to take out only one sprite from the sprite sheet
@@ -39,32 +39,26 @@ void renderAnimation(Animation *animation, Position pos, PlayerAnimation *curren
 	else
 	{
 		animation->actualFrame = 0;
-		*currentAnimation = None;
 	}
 }
 
-void renderPlayer(Player *player, Sprites *sprites, unsigned int *frameCounter)
+void renderPlayer(Player *player, Sprites *sprites)
 {
 	// TODO: do i need some kind of check to stay in the animation until it has finished?
 	if (player->currentAnimation != None)
 	{
-		if (*frameCounter >= ANIMATION_SPEED)
+		/*
+		 * TODO: move the rendering of the animations to outside?
+		 * Because all of them should be updated at the same time
+		 */
+
+		if (player->currentAnimation == BasicAttackRight)
 		{
-			/*
-			 * TODO: move the rendering of the animations to outside?
-			 * Because all of them should be updated at the same time
-			 */
-
-			*frameCounter = 0;
-
-			if (player->currentAnimation == BasicAttackRight)
-			{
-				renderAnimation(&sprites->playerAttackRight, player->pos, &player->currentAnimation);
-			}
-			else if (player->currentAnimation == BasicAttackLeft)
-			{
-				renderAnimation(&sprites->playerAttackLeft, player->pos, &player->currentAnimation);
-			}
+			renderAnimation(&sprites->playerAttackRight, player->pos);
+		}
+		else if (player->currentAnimation == BasicAttackLeft)
+		{
+			renderAnimation(&sprites->playerAttackLeft, player->pos);
 		}
 	}
 	else if (player->lookDir == Right)
@@ -104,5 +98,39 @@ void renderEnemies(const EnemiesData *enemiesData, const Texture2D *enemySprite)
 			// at the moment there is only one sprite to render, later I'll have to check also the direction
 			DrawTexture(*enemySprite, enemy->pos.x * SPRITE_SIZE, enemy->pos.y * SPRITE_SIZE, WHITE);
 		}
+	}
+}
+
+void updateAnimations(unsigned int *frameCounter, Sprites *sprites, Player *player)
+{
+	// FIXME: this is not 10 fps but 10 frames in which each frame runes a 60fps!
+	if (frameCounter >= ANIMATION_SPEED)
+	{
+		// TODO: change the  animations to an array so I can iterate over?
+		if (player->currentAnimation == BasicAttackRight)
+		{
+			if (sprites->playerAttackRight.actualFrame < sprites->playerAttackRight.nFrames)
+			{
+				sprites->playerAttackRight.actualFrame++;
+			}
+			else
+			{
+				sprites->playerAttackRight.actualFrame = 0;
+				player->currentAnimation = None;
+			}
+		}
+		else if (player->currentAnimation == BasicAttackLeft)
+		{
+			if (sprites->playerAttackLeft.actualFrame < sprites->playerAttackLeft.nFrames)
+			{
+				sprites->playerAttackLeft.actualFrame++;
+			}
+			else
+			{
+				sprites->playerAttackLeft.actualFrame = 0;
+				player->currentAnimation = None;
+			}
+		}
+		*frameCounter = 0;
 	}
 }

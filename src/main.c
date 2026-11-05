@@ -62,11 +62,12 @@ int main(int argc, char **argv)
 		renderCoins(&game.coinsData, &game.sprites.coin);
 		renderExit(&game);
 		renderEnemies(&game.enemiesData, &game.sprites.enemy);
-		renderPlayer(&game.player, &game.sprites, &frameCounter);
+		renderPlayer(&game.player, &game.sprites);
 		EndDrawing();
 
+		// update the animation frames
+		updateAnimations(&frameCounter, &game.sprites, &game.player);
 		// update the frame counter
-
 		++frameCounter;
 	}
 	CloseWindow();
