@@ -10,7 +10,7 @@ bool initGame(GameData *game)
 
 	game->player.lookDir = Right;
 	game->player.lives = 3;
-	game->player.currentAnimation = None;
+	game->player.animation = NULL;
 	game->coinsData.nCoins = 0;
 	game->enemiesData.nEnemies = 0;
 	game->state = Playing;
@@ -66,7 +66,7 @@ int main(int argc, char **argv)
 		EndDrawing();
 
 		// update the animation frames
-		updateAnimations(&frameCounter, &game.sprites, &game.player);
+		updateAnimations(&frameCounter, game.sprites.animations, &game.player);
 		// update the frame counter
 		++frameCounter;
 	}

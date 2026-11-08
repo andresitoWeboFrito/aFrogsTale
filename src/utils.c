@@ -64,9 +64,9 @@ bool loadAllSprites(Sprites *sprites)
 		return false;
 
 	// Animations
-	else if (!loadAnimation(&sprites->playerAttackRight, "player_attack_right.png", 4))
+	else if (!loadAnimation(&sprites->animations[0], "player_attack_right.png", 4))
 		return false;
-	else if (!loadAnimation(&sprites->playerAttackLeft, "player_attack_left.png", 4))
+	else if (!loadAnimation(&sprites->animations[1], "player_attack_left.png", 4))
 		return false;
 	else
 		return true;

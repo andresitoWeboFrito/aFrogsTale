@@ -30,36 +30,26 @@ void renderAnimation(Animation *animation, Position pos)
 	frameRectangle.x = SPRITE_SIZE * animation->actualFrame;
 
 	Vector2 posVector = {.x = pos.x * SPRITE_SIZE, .y = pos.y * SPRITE_SIZE};
-
 	DrawTextureRec(animation->spriteSheet, frameRectangle, posVector, WHITE);
-	if (animation->actualFrame < animation->nFrames)
-	{
-		animation->actualFrame++;
-	}
-	else
-	{
-		animation->actualFrame = 0;
-	}
+	// if (animation->actualFrame < animation->nFrames)
+	// {
+	// 	animation->actualFrame++;
+	// }
+	// else
+	// {
+	// 	animation->actualFrame = 0;
+	// }
 }
 
 void renderPlayer(Player *player, Sprites *sprites)
 {
-	// TODO: do i need some kind of check to stay in the animation until it has finished?
-	if (player->currentAnimation != None)
+	if (player->animation)
 	{
 		/*
 		 * TODO: move the rendering of the animations to outside?
 		 * Because all of them should be updated at the same time
 		 */
-
-		if (player->currentAnimation == BasicAttackRight)
-		{
-			renderAnimation(&sprites->playerAttackRight, player->pos);
-		}
-		else if (player->currentAnimation == BasicAttackLeft)
-		{
-			renderAnimation(&sprites->playerAttackLeft, player->pos);
-		}
+		renderAnimation(player->animation, player->pos);
 	}
 	else if (player->lookDir == Right)
 		DrawTexture(sprites->playerRight, player->pos.x * SPRITE_SIZE, player->pos.y * SPRITE_SIZE, WHITE);
@@ -100,35 +90,28 @@ void renderEnemies(const EnemiesData *enemiesData, const Texture2D *enemySprite)
 		}
 	}
 }
-
-void updateAnimations(unsigned int *frameCounter, Sprites *sprites, Player *player)
+// TODO: im not sure if the palyer animation should be changed here or ressetd somewhere else
+void updateAnimations(unsigned int *frameCounter, Animation *animations, Player *player)
 {
 	// FIXME: this is not 10 fps but 10 frames in which each frame runes a 60fps!
-	if (frameCounter >= ANIMATION_SPEED)
+	if (*frameCounter >= ANIMATION_SPEED)
 	{
-		// TODO: change the  animations to an array so I can iterate over?
-		if (player->currentAnimation == BasicAttackRight)
+		for (size_t i = 0; i < N_ANIMATIONS; i++)
 		{
-			if (sprites->playerAttackRight.actualFrame < sprites->playerAttackRight.nFrames)
+			// TODO: this updates all the animations, maybe I should onyl update the ones I'm using?
+			if (animations[i].live)
 			{
-				sprites->playerAttackRight.actualFrame++;
-			}
-			else
-			{
-				sprites->playerAttackRight.actualFrame = 0;
-				player->currentAnimation = None;
-			}
-		}
-		else if (player->currentAnimation == BasicAttackLeft)
-		{
-			if (sprites->playerAttackLeft.actualFrame < sprites->playerAttackLeft.nFrames)
-			{
-				sprites->playerAttackLeft.actualFrame++;
-			}
-			else
-			{
-				sprites->playerAttackLeft.actualFrame = 0;
-				player->currentAnimation = None;
+				if (animations[i].actualFrame < animations[i].nFrames)
+				{
+					animations[i].actualFrame++;
+				}
+				else
+				{
+					animations[i].actualFrame = 0;
+					animations[i].live = false;
+					player->animation = NULL;
+					// TODO: im not sure of reseting the player animation like that.  And from here?
+				}
 			}
 		}
 		*frameCounter = 0;

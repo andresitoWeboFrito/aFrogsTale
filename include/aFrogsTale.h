@@ -11,7 +11,8 @@
 #define MAX_COINS 100
 #define MAX_ENEMIES 100
 #define MOVEMENT_TIMER 0.2f
-#define ANIMATION_SPEED 10
+#define ANIMATION_SPEED 6
+#define N_ANIMATIONS 2
 
 // escape codes for printf
 #define TERM_GREEN "\033[32m"
@@ -34,13 +35,6 @@ typedef enum
 	Won,
 	Died
 } GameState;
-
-typedef enum
-{
-	None,
-	BasicAttackRight,
-	BasicAttackLeft
-} PlayerAnimation;
 
 // structs
 typedef struct
@@ -77,23 +71,15 @@ typedef struct
 
 typedef struct
 {
-	Position pos;
-	Direction lookDir;
-	unsigned int lives;
-	PlayerAnimation currentAnimation;
-} Player;
-
-// TODO: create a struct with the info relevant to the door(open, pos, ...)
-
-// TODO: do I also need a flag for when the animation it is playing?
-typedef struct
-{
 	Texture2D spriteSheet;
 	unsigned int nFrames;
 	unsigned int actualFrame;
 	bool live;
 } Animation;
 
+// TODO: create a struct with the info relevant to the door(open, pos, ...)
+
+// TODO: change the animation array directly to the game struct?
 typedef struct
 {
 	Texture2D playerRight;
@@ -104,9 +90,16 @@ typedef struct
 	Texture2D doorClosed;
 	Texture2D doorOpen;
 	Texture2D enemy;
-	Animation playerAttackRight;
-	Animation playerAttackLeft;
+	Animation animations[2];
 } Sprites;
+
+typedef struct
+{
+	Position pos;
+	Direction lookDir;
+	unsigned int lives;
+	Animation *animation;
+} Player;
 
 typedef struct
 {
@@ -143,7 +136,7 @@ void renderCoins(const CoinsData *coinsData, const Texture2D *coinSprite);
 void renderExit(const GameData *game);
 void renderEnemies(const EnemiesData *enemiesData, const Texture2D *enemySprite);
 void renderAnimation(Animation *animation, Position pos);
-void updateAnimations(unsigned int *frameCounter, Sprites *sprites, Player *player);
+void updateAnimations(unsigned int *frameCounter, Animation *animations, Player *player);
 
 /* Functions of input.c */
 void checkPressedKeys(GameData *game, float *timer);

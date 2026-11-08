@@ -6,13 +6,14 @@ void playerAttack(Player *player, EnemiesData *enemiesData, Sprites *sprites)
 	// TODO: this feels off, to have 2 variables that do the same thing
 	if (player->lookDir == Right)
 	{
-		player->currentAnimation = BasicAttackRight;
-		sprites->playerAttackRight.live = true;
+		// TODO: have a function that gets the AnimationPointer from the animations enum? Also like a map
+		player->animation = &sprites->animations[0];
+		sprites->animations[0].live = true;
 	}
 	else
 	{
-		player->currentAnimation = BasicAttackLeft;
-		sprites->playerAttackLeft.live = true;
+		player->animation = &sprites->animations[1];
+		sprites->animations[1].live = true;
 	}
 
 	// figure out if there is any enemy in the direction of attack
