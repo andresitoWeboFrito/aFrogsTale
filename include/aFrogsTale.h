@@ -11,7 +11,8 @@
 #define MAX_COINS 100
 #define MAX_ENEMIES 100
 #define MOVEMENT_TIMER 0.2f
-#define ANIMATION_SPEED 6
+#define GAME_SPEED 60
+#define ANIMATION_SPEED 12
 #define N_ANIMATIONS 2
 
 // escape codes for printf
@@ -35,6 +36,12 @@ typedef enum
 	Won,
 	Died
 } GameState;
+
+typedef enum
+{
+	PlayerBasicAttackRight,
+	PlayerBasicAttackLeft
+} AnimationName;
 
 // structs
 typedef struct
@@ -136,7 +143,6 @@ void renderCoins(const CoinsData *coinsData, const Texture2D *coinSprite);
 void renderExit(const GameData *game);
 void renderEnemies(const EnemiesData *enemiesData, const Texture2D *enemySprite);
 void renderAnimation(Animation *animation, Position pos);
-void updateAnimations(unsigned int *frameCounter, Animation *animations, Player *player);
 
 /* Functions of input.c */
 void checkPressedKeys(GameData *game, float *timer);
@@ -147,9 +153,10 @@ bool loadSprite(Texture2D *texture, const char *name);
 bool loadAnimation(Animation *animation, const char *name, unsigned int nFrames);
 bool loadAllSprites(Sprites *sprites);
 Position calcNewPosition(Position oldPos, Direction direction);
+Animation *nameToAnimationPtr(AnimationName name, Animation *animationsArray);
 
 /* Functions of combat.c */
-void playerAttack(Player *player, EnemiesData *enemiesData, Sprites *sprites);
+void playerAttack(Player *player, EnemiesData *enemiesData, const Sprites *sprites);
 Enemy *findAttackedEnemy(Position playerPos, Direction attackDir, const EnemiesData *enemiesData);
 
 /* Functions of collisions.c */
@@ -158,4 +165,6 @@ bool isCollidingWithEnemies(Position playerPos, const EnemiesData *enemiesData);
 void checkMovementCollisions(GameData *game, Direction playerDir);
 
 /* Functions of animations.c */
-void bumpIntoEnemy(const Player *player, Position enemyPosition, const Sprites *sprites);
+// void bumpIntoEnemy(const Player *player, Position enemyPosition, const Sprites *sprites);
+void updatePlayerAnimation(Player *player);
+void updateAnimations(unsigned int *frameCounter, Animation *animations, Player *player, float *testTimer);

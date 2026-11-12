@@ -1,19 +1,15 @@
 #include "aFrogsTale.h"
 
 // TODO: right now the attack direction will only be left or right
-void playerAttack(Player *player, EnemiesData *enemiesData, Sprites *sprites)
+void playerAttack(Player *player, EnemiesData *enemiesData, const Sprites *sprites)
 {
-	// TODO: this feels off, to have 2 variables that do the same thing
 	if (player->lookDir == Right)
 	{
-		// TODO: have a function that gets the AnimationPointer from the animations enum? Also like a map
-		player->animation = &sprites->animations[0];
-		sprites->animations[0].live = true;
+		player->animation = nameToAnimationPtr(PlayerBasicAttackRight, sprites->animations);
 	}
 	else
 	{
-		player->animation = &sprites->animations[1];
-		sprites->animations[1].live = true;
+		player->animation = nameToAnimationPtr(PlayerBasicAttackLeft, sprites->animations);
 	}
 
 	// figure out if there is any enemy in the direction of attack

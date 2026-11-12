@@ -24,7 +24,7 @@ bool initGame(GameData *game)
 	InitWindow(game->mapWidth * SPRITE_SIZE, game->mapHeigth * SPRITE_SIZE, "aFrogsTale");
 	if (!loadAllSprites(&game->sprites))
 		return false;
-	SetTargetFPS(60);
+	SetTargetFPS(GAME_SPEED);
 
 	return true;
 }
@@ -35,6 +35,7 @@ int main(int argc, char **argv)
 	GameData game;
 	float timer = 0;
 	unsigned int frameCounter = 0;
+	float testTimer = 0;
 
 	if (argc == 2)
 	{
@@ -53,6 +54,7 @@ int main(int argc, char **argv)
 	{
 		// Check the player inputs
 		timer = timer + GetFrameTime();
+		testTimer = testTimer + GetFrameTime();
 		checkPressedKeys(&game, &timer);
 
 		// draw each frame
@@ -66,7 +68,7 @@ int main(int argc, char **argv)
 		EndDrawing();
 
 		// update the animation frames
-		updateAnimations(&frameCounter, game.sprites.animations, &game.player);
+		updateAnimations(&frameCounter, game.sprites.animations, &game.player, &testTimer);
 		// update the frame counter
 		++frameCounter;
 	}

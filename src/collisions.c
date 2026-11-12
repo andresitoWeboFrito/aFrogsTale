@@ -43,10 +43,10 @@ void checkMovementCollisions(GameData *game, Direction playerDir)
 	{
 		printf("Bumping into enemy at pos {%lu, %lu}\n", newPos.x, newPos.y);
 		// TODO: fix the animation
-		bumpIntoEnemy(&game->player, newPos, &game->sprites);
+		//  bumpIntoEnemy(&game->player, newPos, &game->sprites);
 		game->player.lives--;
 		printf("%sPlayer took damage! Remaining Lives: %u%s\n", TERM_RED, game->player.lives, TERM_RESET);
-		// TODO: i have to make sure that the lives are atleas 1 when doing lives-- because could happen that the value underflows
+		// TODO: i have to make sure that the lives are atleast 1 when doing lives-- because could happen that the value underflows
 	}
 	else if (!(game->map[newPos.y][newPos.x] == '#'))
 	{

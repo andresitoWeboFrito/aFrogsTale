@@ -64,9 +64,9 @@ bool loadAllSprites(Sprites *sprites)
 		return false;
 
 	// Animations
-	else if (!loadAnimation(&sprites->animations[0], "player_attack_right.png", 4))
+	else if (!loadAnimation(nameToAnimationPtr(PlayerBasicAttackRight, sprites->animations), "player_attack_right.png", 4))
 		return false;
-	else if (!loadAnimation(&sprites->animations[1], "player_attack_left.png", 4))
+	else if (!loadAnimation(nameToAnimationPtr(PlayerBasicAttackLeft, sprites->animations), "player_attack_left.png", 4))
 		return false;
 	else
 		return true;
@@ -96,4 +96,18 @@ Position calcNewPosition(Position oldPos, Direction direction)
 		newPos.y = oldPos.y + 1;
 	}
 	return newPos;
+}
+
+Animation *nameToAnimationPtr(AnimationName name, Animation *animationsArray)
+{
+	switch (name)
+	{
+	case PlayerBasicAttackRight:
+		return &animationsArray[0];
+	case PlayerBasicAttackLeft:
+		return &animationsArray[1];
+	default:
+		printf("%sTried to use a not defined AnimationName\n%s", TERM_RED, TERM_RESET);
+		return NULL;
+	}
 }
