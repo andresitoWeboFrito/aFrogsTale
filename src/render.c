@@ -18,8 +18,6 @@ void renderBackground(char **map, const Sprites *sprites)
 	}
 }
 
-// TODO: maybe move the current animation to be done outside of the function once the animation is done?
-// or change the PlayerAnimation::none animation to be a null pointer to animation struct?
 void renderAnimation(Animation *animation, Position pos)
 {
 	// TODO: maybe put the rectangle with the Animation struct to not create it eeevery time
@@ -77,4 +75,11 @@ void renderEnemies(const EnemiesData *enemiesData, const Texture2D *enemySprite)
 			DrawTexture(*enemySprite, enemy->pos.x * SPRITE_SIZE, enemy->pos.y * SPRITE_SIZE, WHITE);
 		}
 	}
+}
+
+void renderCounters(const GameData *game)
+{
+	// TODO: Store the window size?
+	DrawText(TextFormat("Score: %04d", game->score), ((game->mapWidth / 2 - 0.5) * SPRITE_SIZE), (game->mapHeigth + 0.25) * SPRITE_SIZE, 20, WHITE);
+	DrawText(TextFormat("Lives %d", game->player.lives), (game->mapWidth / 2 * SPRITE_SIZE), (game->mapHeigth + 0.75) * SPRITE_SIZE, 20, WHITE);
 }

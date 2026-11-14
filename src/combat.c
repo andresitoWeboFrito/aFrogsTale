@@ -18,6 +18,8 @@ void playerAttack(Player *player, EnemiesData *enemiesData, const Sprites *sprit
 	{
 		printf("Attacking the enemy at pos{%lu, %lu}\n", attackedEnemy->pos.x, attackedEnemy->pos.y);
 		attackedEnemy->alive = false;
+		// TODO: sync killing the enemy with the attack animation as of now is poping out before we even attack it.
+		// TODO: add points for killing an enemy
 	}
 	else
 	{

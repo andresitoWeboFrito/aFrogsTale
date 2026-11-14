@@ -143,6 +143,7 @@ void renderCoins(const CoinsData *coinsData, const Texture2D *coinSprite);
 void renderExit(const GameData *game);
 void renderEnemies(const EnemiesData *enemiesData, const Texture2D *enemySprite);
 void renderAnimation(Animation *animation, Position pos);
+void renderCounters(const GameData *game);
 
 /* Functions of input.c */
 void checkPressedKeys(GameData *game, float *timer);

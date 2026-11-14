@@ -54,7 +54,8 @@ void updateAnimations(unsigned int *frameCounter, Animation *animations, Player 
 		printf("Time since last frame: %f ms\n", (*testTimer * 1000));
 		*testTimer = 0;
 		updatePlayerAnimation(player);
-		// updateEnemiesAnimations(); // TODO:
+		// to be added when i have other animations coins door, etc
+		// updateEnemiesAnimations();
 		// updateOtherAnimations();
 		*frameCounter = 0;
 	}

@@ -21,14 +21,13 @@ bool initGame(GameData *game)
 
 	parseMap(game);
 
-	InitWindow(game->mapWidth * SPRITE_SIZE, game->mapHeigth * SPRITE_SIZE, "aFrogsTale");
+	InitWindow(game->mapWidth * SPRITE_SIZE, (game->mapHeigth + 1.5) * SPRITE_SIZE, "aFrogsTale");
 	if (!loadAllSprites(&game->sprites))
 		return false;
 	SetTargetFPS(GAME_SPEED);
 
 	return true;
 }
-// TODO: Real score counter!
 
 int main(int argc, char **argv)
 {
@@ -65,6 +64,7 @@ int main(int argc, char **argv)
 		renderExit(&game);
 		renderEnemies(&game.enemiesData, &game.sprites.enemy);
 		renderPlayer(&game.player, &game.sprites);
+		renderCounters(&game);
 		EndDrawing();
 
 		// update the animation frames

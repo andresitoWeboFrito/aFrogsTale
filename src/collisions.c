@@ -8,8 +8,7 @@ void checkCollisionWithCoins(CoinsData *coinsData, Position player, size_t *scor
 		{
 			coinsData->coins[i].collected = true;
 			coinsData->remaininCoins--;
-			// TODO: give 10 points for coin?
-			(*score)++;
+			*score = *score + 10;
 			printf("Remaining Coins: %lu\n", coinsData->remaininCoins);
 			return;
 		}
