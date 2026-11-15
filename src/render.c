@@ -79,7 +79,6 @@ void renderEnemies(const EnemiesData *enemiesData, const Texture2D *enemySprite)
 
 void renderCounters(const GameData *game)
 {
-	// TODO: Store the window size?
 	DrawText(TextFormat("Score: %04d", game->score), ((game->mapWidth / 2 - 0.5) * SPRITE_SIZE), (game->mapHeigth + 0.25) * SPRITE_SIZE, 20, WHITE);
 	DrawText(TextFormat("Lives %d", game->player.lives), (game->mapWidth / 2 * SPRITE_SIZE), (game->mapHeigth + 0.75) * SPRITE_SIZE, 20, WHITE);
 }

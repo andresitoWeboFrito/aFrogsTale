@@ -1,6 +1,5 @@
 #include "aFrogsTale.h"
 
-// TODO: change to be able to move instantly the first time
 void checkPressedKeys(GameData *game, float *timer)
 {
 	// Movement keys (with a timer!)
