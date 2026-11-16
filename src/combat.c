@@ -1,7 +1,7 @@
 #include "aFrogsTale.h"
 
 // TODO: right now the attack direction will only be left or right
-void playerAttack(Player *player, EnemiesData *enemiesData, const AnimationsDatabase *animationDB)
+void playerAttack(Player *player, EnemiesData *enemiesData, const AnimationsDatabase *animationDB, size_t * score)
 {
 	if (player->lookDir == Right)
 	{
@@ -18,8 +18,8 @@ void playerAttack(Player *player, EnemiesData *enemiesData, const AnimationsData
 	{
 		printf("Attacking the enemy at pos{%lu, %lu}\n", attackedEnemy->pos.x, attackedEnemy->pos.y);
 		attackedEnemy->alive = false;
+		*score = *score + 100;
 		// TODO: sync killing the enemy with the attack animation as of now is poping out before we even attack it.
-		// TODO: add points for killing an enemy
 	}
 	else
 	{
