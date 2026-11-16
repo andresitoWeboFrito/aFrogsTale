@@ -169,7 +169,7 @@ bool loadAllSpritesAndAnimations(Sprites *sprites, AnimationsDatabase *animation
 Position calcNewPosition(Position oldPos, Direction direction);
 
 /* Functions of combat.c */
-void playerAttack(Player *player, EnemiesData *enemiesData, const AnimationsDatabase *animationDB);
+void playerAttack(Player *player, EnemiesData *enemiesData, const AnimationsDatabase *animationDB, size_t * score);
 Enemy *findAttackedEnemy(Position playerPos, Direction attackDir, EnemiesData *enemiesData);
 
 /* Functions of collisions.c */
