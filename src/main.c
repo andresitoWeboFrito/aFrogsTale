@@ -1,5 +1,22 @@
 #include "aFrogsTale.h"
 
+/*
+TODOS:
+	- sync enemy with attack animation
+	- add points for killing enemy
+	- add door info struct
+	- add more animations (collecting coins, door opening, etc)
+	- improve combat (more life points for enemies, different attacks, enemies attack back...)
+	- make enemies move
+	- add map generator
+	- add the bump with an enemy animation (hard coded?)
+	- improve walls and borders
+	- add different ground textures
+	- add sounds
+	- add main title and ui?
+	- make the animationInstances to be stored in dynamic memory (malloc). I think this is a must when i have multiple animations?
+*/
+
 bool initGame(GameData *game)
 {
 	game->map = loadMap(game->mapPath);
@@ -10,7 +27,7 @@ bool initGame(GameData *game)
 
 	game->player.lookDir = Right;
 	game->player.lives = 3;
-	game->player.animation = NULL;
+	game->player.animation.live = false;
 	game->coinsData.nCoins = 0;
 	game->enemiesData.nEnemies = 0;
 	game->state = Playing;
@@ -59,10 +76,10 @@ int main(int argc, char **argv)
 		BeginDrawing();
 		ClearBackground(BLACK);
 		renderBackground(game.map, &game.sprites);
+		renderPlayer(&game.player, &game.sprites);
 		renderCoins(&game.coinsData, &game.sprites.coin);
 		renderExit(&game);
 		renderEnemies(&game.enemiesData, &game.sprites.enemy);
-		renderPlayer(&game.player, &game.sprites);
 		renderCounters(&game);
 		EndDrawing();
 
@@ -82,32 +99,3 @@ int main(int argc, char **argv)
 	printf("%sYour score was: %lu\n", TERM_GREEN, game.score);
 	return 0;
 }
-
-/*
-TODOS:
-	- sync enemy with attack animation
-	- add points for killing enemy
-	- add door inf struct
-	- add more animations (collecting coins, door opening, etc)
-	- improve combat (more life poitns for enemies, different attacks, enemies attack back...)
-	- make enemies move
-	- add map generator
-	- add the bump with an enemy animation (hard coded?)
-	- improve walls and borders
-	- add different ground textures
-	- add sounds
-	- add main title and ui?
-
-	quiero cargar una vez los sprite sheets.
-	Y ahora cada objeto tiene un puntero a una animacion, y esa un puntero al sprite sheet
-	- Cargar texturas
-	- Conversor de no se que a el puntero al sprite sheet. TODO:
-	- Parsear mapa
-	opcion a:
-		- cargo la animacion pa el objeto cuando la tengo que usar
-	opcion b:
-		- cargo la animacion al principio y la disparo cuando la tengo que usar
-
-		que es cargar la animacion? crear el struct con el numero de frames?
-	cargar el struct solo me interesan el frame actual, y quizas si la animacion esta alive?
-*/

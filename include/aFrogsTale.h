@@ -86,7 +86,7 @@ typedef struct
 typedef struct
 {
 	Position pos;
-	AnimationInstance *currentAnimation;
+	AnimationInstance currentAnimation;
 	bool collected;
 } Coin;
 
@@ -117,7 +117,7 @@ typedef struct
 	Position pos;
 	Direction lookDir;
 	unsigned int lives;
-	AnimationInstance *animation;
+	AnimationInstance animation;
 } Player;
 
 typedef struct

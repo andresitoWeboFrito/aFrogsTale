@@ -33,9 +33,9 @@ void renderAnimation(AnimationInstance *animation, Position pos)
 
 void renderPlayer(Player *player, Sprites *sprites)
 {
-	if (player->animation)
+	if (player->animation.live)
 	{
-		renderAnimation(player->animation, player->pos);
+		renderAnimation(&player->animation, player->pos);
 	}
 	else if (player->lookDir == Right)
 		DrawTexture(sprites->playerRight, player->pos.x * SPRITE_SIZE, player->pos.y * SPRITE_SIZE, WHITE);
@@ -47,14 +47,14 @@ void renderCoins(const CoinsData *coinsData, const Texture2D *coinSprite)
 {
 	for (size_t i = 0; i < coinsData->nCoins; i++)
 	{
-		const Coin *coin = &coinsData->coins[i];
+		Coin *coin = &coinsData->coins[i];
 		if (!coin->collected)
 		{
 			DrawTexture(*coinSprite, coin->pos.x * SPRITE_SIZE, coin->pos.y * SPRITE_SIZE, WHITE);
 		}
-		else if (coin->currentAnimation)
+		else if (coin->currentAnimation.live)
 		{
-			renderAnimation(coin->currentAnimation, coin->pos);
+			renderAnimation(&coin->currentAnimation, coin->pos);
 		}
 	}
 }

@@ -14,14 +14,14 @@ void updateAnimations(unsigned int *frameCounter, CoinsData *coins, Player *play
 
 void updatePlayerAnimation(Player *player)
 {
-	if (player->animation)
+	if (player->animation.live)
 	{
-		if (player->animation->actualFrame < player->animation->data->nFrames) // should be nFrames -1 ?
-			player->animation->actualFrame++;
+		if (player->animation.actualFrame < player->animation.data->nFrames) // should be nFrames -1 ?
+			player->animation.actualFrame++;
 		else
 		{
-			player->animation->actualFrame = 0;
-			player->animation = NULL;
+			player->animation.actualFrame = 0;
+			player->animation.live = false;
 		}
 	}
 }
@@ -30,9 +30,9 @@ void updateOtherAnimations(CoinsData *coinsData)
 {
 	for (size_t i = 0; i < coinsData->nCoins; i++)
 	{
-		AnimationInstance *animation = coinsData->coins[i].currentAnimation;
+		AnimationInstance *animation = &coinsData->coins[i].currentAnimation;
 
-		if (animation)
+		if (animation->live)
 		{
 			if (animation->actualFrame < animation->data->nFrames)
 			{
@@ -41,8 +41,7 @@ void updateOtherAnimations(CoinsData *coinsData)
 			else
 			{
 				animation->actualFrame = 0;
-				animation->live = false; // TODO: remove the live flag?
-				coinsData->coins[i].currentAnimation = NULL;
+				animation->live = false;
 			}
 		}
 	}
