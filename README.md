@@ -19,7 +19,7 @@ The following commands are available:
 - make re: performs fclean and the recompiles everything
 
 ## Playing
-You can get the latest release of the game from [here](https://github.com/andresitoWeboFrito/aFrogsTale/releases/tag/week3)
+You can get the latest release of the game from [here](https://github.com/andresitoWeboFrito/aFrogsTale/releases/tag/week4)
 
 The game can be played by launching the linux executable with ```./aFrogsTale ```
 - Use WASD keys to move our samurai frog.
