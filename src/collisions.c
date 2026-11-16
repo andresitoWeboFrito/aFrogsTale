@@ -1,15 +1,15 @@
 #include "aFrogsTale.h"
 
-void checkCollisionWithCoins(CoinsData *coinsData, Position player, size_t *score)
+void checkCollisionWithCoins(CoinsData *coinsData, Position player, size_t *score, const AnimationsDatabase *animationsDatabase)
 {
 	for (size_t i = 0; i < coinsData->nCoins; i++)
 	{
 		if (isPosEqual(coinsData->coins[i].pos, player) && !coinsData->coins[i].collected)
 		{
 			coinsData->coins[i].collected = true;
+			coinsData->coins[i].currentAnimation = instantiateAnimation(&animationsDatabase->CollectCoin);
 			coinsData->remaininCoins--;
 			*score = *score + 10;
-			printf("Remaining Coins: %lu\n", coinsData->remaininCoins);
 			return;
 		}
 	}
@@ -53,7 +53,7 @@ void checkMovementCollisions(GameData *game, Direction playerDir)
 		game->player.pos = newPos;
 	}
 	// check if a coin is collected
-	checkCollisionWithCoins(&game->coinsData, game->player.pos, &game->score);
+	checkCollisionWithCoins(&game->coinsData, game->player.pos, &game->score, &game->animationsDataBase);
 
 	// Update the game status
 	if (isPosEqual(game->player.pos, game->doorPos) && game->coinsData.remaininCoins == 0)

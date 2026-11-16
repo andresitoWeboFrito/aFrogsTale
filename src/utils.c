@@ -22,7 +22,7 @@ bool loadSprite(Texture2D *texture, const char *name)
 	return true;
 }
 
-bool loadAnimation(Animation *animation, const char *name, unsigned int nFrames)
+bool loadAnimation(AnimationData *animationData, const char *name, unsigned int nFrames)
 {
 	// Build the full path to the file
 	char fullPath[256];
@@ -30,20 +30,17 @@ bool loadAnimation(Animation *animation, const char *name, unsigned int nFrames)
 	strcat(fullPath, "sprites/");
 	strncat(fullPath, name, sizeof(fullPath) - (sizeof(name) + 1));
 
-	animation->spriteSheet = LoadTexture(fullPath);
-	if (!IsTextureValid(animation->spriteSheet))
+	animationData->spriteSheet = LoadTexture(fullPath);
+	if (!IsTextureValid(animationData->spriteSheet))
 	{
 		printf("%sUnable to load the %s sprite sheet!\n%s", TERM_RED, name, TERM_RESET);
 		return false;
 	}
-
-	animation->nFrames = nFrames;
-	animation->actualFrame = 0;
-	animation->live = false;
+	animationData->nFrames = nFrames;
 	return true;
 }
 
-bool loadAllSprites(Sprites *sprites)
+bool loadAllSpritesAndAnimations(Sprites *sprites, AnimationsDatabase *animations)
 {
 	// Sprites
 	if (!loadSprite(&sprites->coin, "coin.png"))
@@ -64,9 +61,11 @@ bool loadAllSprites(Sprites *sprites)
 		return false;
 
 	// Animations
-	else if (!loadAnimation(nameToAnimationPtr(PlayerBasicAttackRight, sprites->animations), "player_attack_right.png", 4))
+	else if (!loadAnimation(&animations->BasicPlayerAttackRight, "player_attack_right.png", 4))
 		return false;
-	else if (!loadAnimation(nameToAnimationPtr(PlayerBasicAttackLeft, sprites->animations), "player_attack_left.png", 4))
+	else if (!loadAnimation(&animations->BasicPlayerAttackLeft, "player_attack_left.png", 4))
+		return false;
+	else if (!loadAnimation(&animations->CollectCoin, "collect_coin.png", 4))
 		return false;
 	else
 		return true;
@@ -98,16 +97,3 @@ Position calcNewPosition(Position oldPos, Direction direction)
 	return newPos;
 }
 
-Animation *nameToAnimationPtr(AnimationName name, Animation *animationsArray)
-{
-	switch (name)
-	{
-	case PlayerBasicAttackRight:
-		return &animationsArray[0];
-	case PlayerBasicAttackLeft:
-		return &animationsArray[1];
-	default:
-		printf("%sTried to use a not defined AnimationName\n%s", TERM_RED, TERM_RESET);
-		return NULL;
-	}
-}

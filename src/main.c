@@ -22,8 +22,9 @@ bool initGame(GameData *game)
 	parseMap(game);
 
 	InitWindow(game->mapWidth * SPRITE_SIZE, (game->mapHeigth + 1.5) * SPRITE_SIZE, "aFrogsTale");
-	if (!loadAllSprites(&game->sprites))
+	if (!loadAllSpritesAndAnimations(&game->sprites, &game->animationsDataBase))
 		return false;
+
 	SetTargetFPS(GAME_SPEED);
 
 	return true;
@@ -34,7 +35,6 @@ int main(int argc, char **argv)
 	GameData game;
 	float timer = 0;
 	unsigned int frameCounter = 0;
-	float testTimer = 0;
 
 	if (argc == 2)
 	{
@@ -53,7 +53,6 @@ int main(int argc, char **argv)
 	{
 		// Check the player inputs
 		timer = timer + GetFrameTime();
-		testTimer = testTimer + GetFrameTime();
 		checkPressedKeys(&game, &timer);
 
 		// draw each frame
@@ -68,7 +67,7 @@ int main(int argc, char **argv)
 		EndDrawing();
 
 		// update the animation frames
-		updateAnimations(&frameCounter, game.sprites.animations, &game.player, &testTimer);
+		updateAnimations(&frameCounter, &game.coinsData, &game.player);
 		// update the frame counter
 		++frameCounter;
 	}
@@ -83,3 +82,32 @@ int main(int argc, char **argv)
 	printf("%sYour score was: %lu\n", TERM_GREEN, game.score);
 	return 0;
 }
+
+/*
+TODOS:
+	- sync enemy with attack animation
+	- add points for killing enemy
+	- add door inf struct
+	- add more animations (collecting coins, door opening, etc)
+	- improve combat (more life poitns for enemies, different attacks, enemies attack back...)
+	- make enemies move
+	- add map generator
+	- add the bump with an enemy animation (hard coded?)
+	- improve walls and borders
+	- add different ground textures
+	- add sounds
+	- add main title and ui?
+
+	quiero cargar una vez los sprite sheets.
+	Y ahora cada objeto tiene un puntero a una animacion, y esa un puntero al sprite sheet
+	- Cargar texturas
+	- Conversor de no se que a el puntero al sprite sheet. TODO:
+	- Parsear mapa
+	opcion a:
+		- cargo la animacion pa el objeto cuando la tengo que usar
+	opcion b:
+		- cargo la animacion al principio y la disparo cuando la tengo que usar
+
+		que es cargar la animacion? crear el struct con el numero de frames?
+	cargar el struct solo me interesan el frame actual, y quizas si la animacion esta alive?
+*/

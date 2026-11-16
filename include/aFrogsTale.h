@@ -8,12 +8,12 @@
 
 // global consts
 #define SPRITE_SIZE 64
-#define MAX_COINS 100
+#define MAX_COINS 100 // TODO: all of these should use dinamyc memory instead?
 #define MAX_ENEMIES 100
+#define MAX_ANIMATIONS 100
 #define MOVEMENT_TIMER 0.2f
 #define GAME_SPEED 60
 #define ANIMATION_SPEED 12
-#define N_ANIMATIONS 2
 
 // escape codes for printf
 #define TERM_GREEN "\033[32m"
@@ -40,7 +40,8 @@ typedef enum
 typedef enum
 {
 	PlayerBasicAttackRight,
-	PlayerBasicAttackLeft
+	PlayerBasicAttackLeft,
+	CoinCollected
 } AnimationName;
 
 // structs
@@ -52,7 +53,40 @@ typedef struct
 
 typedef struct
 {
+	Texture2D spriteSheet;
+	unsigned int nFrames;
+} AnimationData;
+
+typedef struct
+{
+	const AnimationData *data;
+	unsigned int actualFrame;
+	bool live;
+} AnimationInstance;
+
+typedef struct
+{
+	AnimationData BasicPlayerAttackLeft;
+	AnimationData BasicPlayerAttackRight;
+	AnimationData CollectCoin;
+} AnimationsDatabase;
+
+typedef struct
+{
+	Texture2D playerRight;
+	Texture2D playerLeft;
+	Texture2D wall;
+	Texture2D ground;
+	Texture2D coin;
+	Texture2D doorClosed;
+	Texture2D doorOpen;
+	Texture2D enemy;
+} Sprites;
+
+typedef struct
+{
 	Position pos;
+	AnimationInstance *currentAnimation;
 	bool collected;
 } Coin;
 
@@ -76,36 +110,14 @@ typedef struct
 	size_t nEnemies;
 } EnemiesData;
 
-typedef struct
-{
-	Texture2D spriteSheet;
-	unsigned int nFrames;
-	unsigned int actualFrame;
-	bool live;
-} Animation;
-
 // TODO: create a struct with the info relevant to the door(open, pos, ...)
-
-// TODO: change the animation array directly to the game struct?
-typedef struct
-{
-	Texture2D playerRight;
-	Texture2D playerLeft;
-	Texture2D wall;
-	Texture2D ground;
-	Texture2D coin;
-	Texture2D doorClosed;
-	Texture2D doorOpen;
-	Texture2D enemy;
-	Animation animations[2];
-} Sprites;
 
 typedef struct
 {
 	Position pos;
 	Direction lookDir;
 	unsigned int lives;
-	Animation *animation;
+	AnimationInstance *animation;
 } Player;
 
 typedef struct
@@ -118,6 +130,7 @@ typedef struct
 	Position doorPos;
 	GameState state;
 	Sprites sprites;
+	AnimationsDatabase animationsDataBase;
 	CoinsData coinsData;
 	EnemiesData enemiesData;
 	size_t score;
@@ -142,7 +155,7 @@ void renderPlayer(Player *player, Sprites *sprites);
 void renderCoins(const CoinsData *coinsData, const Texture2D *coinSprite);
 void renderExit(const GameData *game);
 void renderEnemies(const EnemiesData *enemiesData, const Texture2D *enemySprite);
-void renderAnimation(Animation *animation, Position pos);
+void renderAnimation(AnimationInstance *animation, Position pos);
 void renderCounters(const GameData *game);
 
 /* Functions of input.c */
@@ -151,21 +164,22 @@ void checkPressedKeys(GameData *game, float *timer);
 /* Functions of utils.c */
 bool isPosEqual(Position pos1, Position pos2);
 bool loadSprite(Texture2D *texture, const char *name);
-bool loadAnimation(Animation *animation, const char *name, unsigned int nFrames);
-bool loadAllSprites(Sprites *sprites);
+bool loadAnimation(AnimationData *animationData, const char *name, unsigned int nFrames);
+bool loadAllSpritesAndAnimations(Sprites *sprites, AnimationsDatabase *animations);
 Position calcNewPosition(Position oldPos, Direction direction);
-Animation *nameToAnimationPtr(AnimationName name, Animation *animationsArray);
 
 /* Functions of combat.c */
-void playerAttack(Player *player, EnemiesData *enemiesData, const Sprites *sprites);
-Enemy *findAttackedEnemy(Position playerPos, Direction attackDir, const EnemiesData *enemiesData);
+void playerAttack(Player *player, EnemiesData *enemiesData, const AnimationsDatabase *animationDB);
+Enemy *findAttackedEnemy(Position playerPos, Direction attackDir, EnemiesData *enemiesData);
 
 /* Functions of collisions.c */
-void checkCollisionWithCoins(CoinsData *coinsData, Position player, size_t *score);
+void checkCollisionWithCoins(CoinsData *coinsData, Position player, size_t *score, const AnimationsDatabase *animationsDatabase);
 bool isCollidingWithEnemies(Position playerPos, const EnemiesData *enemiesData);
 void checkMovementCollisions(GameData *game, Direction playerDir);
 
 /* Functions of animations.c */
 // void bumpIntoEnemy(const Player *player, Position enemyPosition, const Sprites *sprites);
 void updatePlayerAnimation(Player *player);
-void updateAnimations(unsigned int *frameCounter, Animation *animations, Player *player, float *testTimer);
+void updateAnimations(unsigned int *frameCounter, CoinsData *coins, Player *player);
+void updateOtherAnimations(CoinsData *coinsData);
+AnimationInstance instantiateAnimation(const AnimationData *data);

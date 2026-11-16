@@ -31,5 +31,5 @@ void checkPressedKeys(GameData *game, float *timer)
 
 	// TODO: use another key to attack?
 	if (IsKeyPressed(KEY_F))
-		playerAttack(&game->player, &game->enemiesData, &game->sprites);
+		playerAttack(&game->player, &game->enemiesData, &game->animationsDataBase);
 }

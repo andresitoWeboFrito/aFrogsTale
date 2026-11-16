@@ -147,6 +147,7 @@ void addCoin(CoinsData *coinsData, Position pos)
 		// add a new coin
 		coinsData->coins[coinsData->nCoins].pos = pos;
 		coinsData->coins[coinsData->nCoins].collected = false;
+		coinsData->coins[coinsData->nCoins].currentAnimation = NULL;
 		coinsData->nCoins++;
 	}
 	else

@@ -18,17 +18,17 @@ void renderBackground(char **map, const Sprites *sprites)
 	}
 }
 
-void renderAnimation(Animation *animation, Position pos)
+void renderAnimation(AnimationInstance *animation, Position pos)
 {
 	// TODO: maybe put the rectangle with the Animation struct to not create it eeevery time
 	// Create the rectangle to take out only one sprite from the sprite sheet
-	Rectangle frameRectangle = {0.0f, 0.0f, (float)animation->spriteSheet.width / animation->nFrames, (float)animation->spriteSheet.height};
+	Rectangle frameRectangle = {0.0f, 0.0f, (float)animation->data->spriteSheet.width / animation->data->nFrames, SPRITE_SIZE};
 
 	// Move the rectangle to the current frame from the animation
 	frameRectangle.x = SPRITE_SIZE * animation->actualFrame;
 
 	Vector2 posVector = {.x = pos.x * SPRITE_SIZE, .y = pos.y * SPRITE_SIZE};
-	DrawTextureRec(animation->spriteSheet, frameRectangle, posVector, WHITE);
+	DrawTextureRec(animation->data->spriteSheet, frameRectangle, posVector, WHITE);
 }
 
 void renderPlayer(Player *player, Sprites *sprites)
@@ -51,6 +51,10 @@ void renderCoins(const CoinsData *coinsData, const Texture2D *coinSprite)
 		if (!coin->collected)
 		{
 			DrawTexture(*coinSprite, coin->pos.x * SPRITE_SIZE, coin->pos.y * SPRITE_SIZE, WHITE);
+		}
+		else if (coin->currentAnimation)
+		{
+			renderAnimation(coin->currentAnimation, coin->pos);
 		}
 	}
 }
