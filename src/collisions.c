@@ -41,7 +41,6 @@ void checkMovementCollisions(GameData *game, Direction playerDir)
 	if (isCollidingWithEnemies(newPos, &game->enemiesData))
 	{
 		printf("Bumping into enemy at pos {%lu, %lu}\n", newPos.x, newPos.y);
-		// TODO: fix the animation
 		//  bumpIntoEnemy(&game->player, newPos, &game->sprites);
 		game->player.lives--;
 		printf("%sPlayer took damage! Remaining Lives: %u%s\n", TERM_RED, game->player.lives, TERM_RESET);
@@ -54,9 +53,13 @@ void checkMovementCollisions(GameData *game, Direction playerDir)
 	}
 	// check if a coin is collected
 	checkCollisionWithCoins(&game->coinsData, game->player.pos, &game->score, &game->animationsDataBase);
+	if (game->coinsData.remaininCoins == 0)
+	{
+		game->door.isOpen = true;
+	}
 
 	// Update the game status
-	if (isPosEqual(game->player.pos, game->doorPos) && game->coinsData.remaininCoins == 0)
+	if (isPosEqual(game->player.pos, game->door.pos) && game->coinsData.remaininCoins == 0)
 	{
 		game->state = Won;
 	}

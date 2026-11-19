@@ -123,8 +123,8 @@ void parseMap(GameData *game)
 			else if (game->map[y][x] == 'D')
 			{
 				// the exit door of the level
-				game->doorPos.x = x;
-				game->doorPos.y = y;
+				game->door.pos.x = x;
+				game->door.pos.y = y;
 			}
 			else if (game->map[y][x] == 'E')
 			{

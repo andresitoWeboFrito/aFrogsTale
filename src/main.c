@@ -3,7 +3,6 @@
 /*
 TODOS:
 	- sync enemy with attack animation
-	- add points for killing enemy
 	- add door info struct
 	- add more animations (collecting coins, door opening, etc)
 	- improve combat (more life points for enemies, different attacks, enemies attack back...)
@@ -14,8 +13,8 @@ TODOS:
 	- add different ground textures
 	- add sounds
 	- add main title and ui?
-	- make the animationInstances to be stored in dynamic memory (malloc). I think this is a must when i have multiple animations?
-*/
+	- make the animation Instances to be stored in dynamic memory (malloc). I think this is a must when i have multiple animations?
+	*/
 
 bool initGame(GameData *game)
 {
@@ -30,6 +29,7 @@ bool initGame(GameData *game)
 	game->player.animation.live = false;
 	game->coinsData.nCoins = 0;
 	game->enemiesData.nEnemies = 0;
+	game->door.isOpen = false;
 	game->state = Playing;
 	game->score = 0;
 
@@ -76,7 +76,7 @@ int main(int argc, char **argv)
 		BeginDrawing();
 		ClearBackground(BLACK);
 		renderBackground(game.map, &game.sprites);
-		renderExit(&game);
+		renderExit(&game.door, &game.sprites.doorOpen, &game.sprites.doorClosed);
 
 		renderPlayer(&game.player, &game.sprites);
 		renderCoins(&game.coinsData, &game.sprites.coin);

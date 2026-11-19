@@ -110,8 +110,6 @@ typedef struct
 	size_t nEnemies;
 } EnemiesData;
 
-// TODO: create a struct with the info relevant to the door(open, pos, ...)
-
 typedef struct
 {
 	Position pos;
@@ -122,18 +120,24 @@ typedef struct
 
 typedef struct
 {
+	Position pos;
+	bool isOpen;
+} DoorInfo;
+
+typedef struct
+{
 	char **map;
 	char *mapPath;
 	size_t mapWidth;
 	size_t mapHeigth;
 	Player player;
-	Position doorPos;
 	GameState state;
 	Sprites sprites;
 	AnimationsDatabase animationsDataBase;
 	CoinsData coinsData;
 	EnemiesData enemiesData;
 	size_t score;
+	DoorInfo door;
 } GameData;
 
 /* Functions of map.c */
@@ -152,8 +156,8 @@ void addEnemy(EnemiesData *enemiesData, Position pos);
 /* Functions of render.c */
 void renderBackground(char **map, const Sprites *sprites);
 void renderPlayer(Player *player, Sprites *sprites);
-void renderCoins(const CoinsData *coinsData, const Texture2D *coinSprite);
-void renderExit(const GameData *game);
+void renderCoins(CoinsData *coinsData, const Texture2D *coinSprite);
+void renderExit(const DoorInfo *door, const Texture2D *openDoorSprite, const Texture2D *closeDoorSprite);
 void renderEnemies(const EnemiesData *enemiesData, const Texture2D *enemySprite);
 void renderAnimation(AnimationInstance *animation, Position pos);
 void renderCounters(const GameData *game);
@@ -169,7 +173,7 @@ bool loadAllSpritesAndAnimations(Sprites *sprites, AnimationsDatabase *animation
 Position calcNewPosition(Position oldPos, Direction direction);
 
 /* Functions of combat.c */
-void playerAttack(Player *player, EnemiesData *enemiesData, const AnimationsDatabase *animationDB, size_t * score);
+void playerAttack(Player *player, EnemiesData *enemiesData, const AnimationsDatabase *animationDB, size_t *score);
 Enemy *findAttackedEnemy(Position playerPos, Direction attackDir, EnemiesData *enemiesData);
 
 /* Functions of collisions.c */

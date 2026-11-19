@@ -43,7 +43,7 @@ void renderPlayer(Player *player, Sprites *sprites)
 		DrawTexture(sprites->playerLeft, player->pos.x * SPRITE_SIZE, player->pos.y * SPRITE_SIZE, WHITE);
 }
 
-void renderCoins(const CoinsData *coinsData, const Texture2D *coinSprite)
+void renderCoins(CoinsData *coinsData, const Texture2D *coinSprite)
 {
 	for (size_t i = 0; i < coinsData->nCoins; i++)
 	{
@@ -59,12 +59,12 @@ void renderCoins(const CoinsData *coinsData, const Texture2D *coinSprite)
 	}
 }
 
-void renderExit(const GameData *game)
+void renderExit(const DoorInfo *door, const Texture2D *openDoorSprite, const Texture2D *closeDoorSprite)
 {
-	if (game->coinsData.remaininCoins == 0)
-		DrawTexture(game->sprites.doorOpen, game->doorPos.x * SPRITE_SIZE, game->doorPos.y * SPRITE_SIZE, WHITE);
+	if (door->isOpen)
+		DrawTexture(*openDoorSprite, door->pos.x * SPRITE_SIZE, door->pos.y * SPRITE_SIZE, WHITE);
 	else
-		DrawTexture(game->sprites.doorClosed, game->doorPos.x * SPRITE_SIZE, game->doorPos.y * SPRITE_SIZE, WHITE);
+		DrawTexture(*closeDoorSprite, door->pos.x * SPRITE_SIZE, door->pos.y * SPRITE_SIZE, WHITE);
 }
 
 void renderEnemies(const EnemiesData *enemiesData, const Texture2D *enemySprite)
