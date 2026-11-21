@@ -167,6 +167,8 @@ void addEnemy(EnemiesData *enemiesData, Position pos)
 		enemiesData->enemies[enemiesData->nEnemies].alive = true;
 		enemiesData->enemies[enemiesData->nEnemies].dir = Left;
 		enemiesData->enemies[enemiesData->nEnemies].pos = pos;
+		enemiesData->enemies[enemiesData->nEnemies].movementTimer = 0;
+
 		enemiesData->nEnemies++;
 	}
 	else
@@ -264,7 +266,6 @@ bool checkItems(char **map)
 	unsigned int playerCounter = 0;
 	unsigned int coinCounter = 0;
 	unsigned int doorCounter = 0;
-
 	for (size_t y = 0; y < countLines(map); y++)
 	{
 		for (size_t x = 0; x < strlen(map[y]); x++)

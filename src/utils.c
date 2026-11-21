@@ -97,3 +97,40 @@ Position calcNewPosition(Position oldPos, Direction direction)
 	return newPos;
 }
 
+// TODO: change to use the required data instead of the whole game
+TileStatus checkTile(Position desiredTile, GameData *game)
+{
+	for (size_t i = 0; i < game->enemiesData.nEnemies; i++)
+	{
+		Enemy *enemy = &game->enemiesData.enemies[i];
+		if (enemy->alive && isPosEqual(enemy->pos, desiredTile))
+		{
+			// there is an enemy on the desired tile
+			return (TileStatus){.free = false, .item = EnemyEntity, .itemPtr = enemy};
+		}
+	}
+	if (isPosEqual(desiredTile, game->player.pos))
+	{
+		// the player is on the tile
+		return (TileStatus){.free = false, .item = PlayerEntity, .itemPtr = &game->player};
+	}
+	else if (game->map[desiredTile.y][desiredTile.x] == '#')
+	{
+		// there is a wall on the tile
+		return (TileStatus){.free = false, .item = WallEntity, .itemPtr = NULL};
+	}
+	else
+	{
+		for (size_t i = 0; i < game->coinsData.nCoins; i++)
+		{
+			Coin *coin = &game->coinsData.coins[i];
+			if (!coin->collected && isPosEqual(desiredTile, coin->pos))
+			{
+				return (TileStatus){.free = true, .item = CoinEntity, .itemPtr = coin};
+			}
+		}
+
+		// if nothing, then we have an empty tile
+		return (TileStatus){.free = true, .item = None, .itemPtr = NULL};
+	}
+}

@@ -11,7 +11,8 @@ SRC = 	src/main.c \
 		src/utils.c \
 		src/combat.c  \
 		src/collisions.c \
-		src/animations.c
+		src/animations.c \
+		src/enemies.c
 
 OBJ = $(SRC:.c=.o)
 

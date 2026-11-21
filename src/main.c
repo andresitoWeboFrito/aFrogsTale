@@ -14,6 +14,7 @@ TODOS:
 	- add sounds
 	- add main title and ui?
 	- make the animation Instances to be stored in dynamic memory (malloc). I think this is a must when i have multiple animations?
+	- function to update all of the timers
 	*/
 
 bool initGame(GameData *game)

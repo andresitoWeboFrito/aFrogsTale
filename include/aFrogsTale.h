@@ -44,6 +44,16 @@ typedef enum
 	CoinCollected
 } AnimationName;
 
+typedef enum
+{
+	EnemyEntity,
+	PlayerEntity,
+	WallEntity,
+	CoinEntity,
+	DoorEntity,
+	None
+} Item;
+
 // structs
 typedef struct
 {
@@ -102,6 +112,7 @@ typedef struct
 	Position pos;
 	Direction dir;
 	bool alive;
+	float movementTimer;
 } Enemy;
 
 typedef struct
@@ -123,6 +134,13 @@ typedef struct
 	Position pos;
 	bool isOpen;
 } DoorInfo;
+
+typedef struct
+{
+	Item item;
+	void *itemPtr;
+	bool free;
+} TileStatus;
 
 typedef struct
 {
@@ -171,6 +189,8 @@ bool loadSprite(Texture2D *texture, const char *name);
 bool loadAnimation(AnimationData *animationData, const char *name, unsigned int nFrames);
 bool loadAllSpritesAndAnimations(Sprites *sprites, AnimationsDatabase *animations);
 Position calcNewPosition(Position oldPos, Direction direction);
+TileStatus checkTile(Position desiredTile, GameData *game);
+
 
 /* Functions of combat.c */
 void playerAttack(Player *player, EnemiesData *enemiesData, const AnimationsDatabase *animationDB, size_t *score);
