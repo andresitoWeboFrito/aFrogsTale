@@ -37,18 +37,37 @@ Position calcNewEnemyPos(Position playerPos, Position enemyPos, GameData *game)
 			enemyDir = Up;
 	}
 
+	Position newPos = calcNewPosition(enemyPos, enemyDir);
 	// Check the tile
-	TileStatus tileStatus = checkTile(calcNewPosition(enemyPos, enemyDir), game);
+	TileStatus tileStatus = checkTile(newPos, game);
 
 	if (tileStatus.free)
 	{
-		return (calcNewPosition(enemyPos, enemyDir));
+		return (newPos);
 	}
 	else
 	{
-		// the tile is not free. try with the other direction? if not dont move
-		// TODO: try with the other direction
-		return enemyPos;
+		// I have to find a cleaner way of doing this
+		if (abs(xDistance) < abs(yDistance))
+		{
+			if (xDistance > 0)
+				enemyDir = Right;
+			else
+				enemyDir = Left;
+		}
+		else
+		{
+			if (yDistance > 0)
+				enemyDir = Down;
+			else
+				enemyDir = Up;
+		}
+		newPos = calcNewPosition(enemyPos, enemyDir);
+		tileStatus = checkTile(newPos, game);
+		if (tileStatus.free)
+			return newPos;
+		else
+			return enemyPos;
 	}
 }
 
