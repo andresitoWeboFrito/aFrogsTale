@@ -116,6 +116,7 @@ typedef struct
 	Direction dir;
 	float movementTimer;
 	unsigned int viewDistance;
+	AnimationInstance currentAnimation;
 	bool alive;
 } Enemy;
 

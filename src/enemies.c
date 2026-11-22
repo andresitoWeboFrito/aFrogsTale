@@ -64,6 +64,17 @@ void moveEnemies(GameData *game)
 	}
 }
 
-void attackPlayer()
+void attackPlayer(Player *player, Enemy *enemy)
 {
+	if (enemy->dir == Left)
+	{
+		// animation of attack left
+	}
+	else
+	{
+		// animation of attack to the right
+	}
+
+	// TODO: sync dealing damage with end of animation
+	player->lives--;
 }

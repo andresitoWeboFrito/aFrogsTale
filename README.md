@@ -2,7 +2,11 @@ So lets make a game about some samurai frogs, shouldn't we?
 
 This is the game I'm planing to work for the next few weeks in terra. It is a game about a warrior frog made in c using raylib!
 
-![aFrogsTaleWeek4](readme_imgs/AFrogsTaleWeek4.png)
+![aFrogsTaleWeek4](readme_imgs/AFrogsTaleWeek5.png)
+
+## Getting the game
+
+You can get the latest release from [here](https://github.com/andresitoWeboFrito/aFrogsTale/releases/tag/week4)
 
 ## Compiling
 ### Compiling the raylib library
@@ -19,7 +23,6 @@ The following commands are available:
 - make re: performs fclean and the recompiles everything
 
 ## Playing
-You can get the latest release of the game from [here](https://github.com/andresitoWeboFrito/aFrogsTale/releases/tag/week4)
 
 The game can be played by launching the linux executable with ```./aFrogsTale ```
 - Use WASD keys to move our samurai frog.
