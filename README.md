@@ -6,7 +6,7 @@ This is the game I'm planing to work for the next few weeks in terra. It is a ga
 
 ## Getting the game
 
-You can get the latest release from [here](https://github.com/andresitoWeboFrito/aFrogsTale/releases/tag/week4)
+You can get the latest release from [here](https://github.com/andresitoWeboFrito/aFrogsTale/releases/tag/week5)
 
 ## Compiling
 ### Compiling the raylib library
