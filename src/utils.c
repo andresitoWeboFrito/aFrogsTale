@@ -134,3 +134,20 @@ TileStatus checkTile(Position desiredTile, GameData *game)
 		return (TileStatus){.free = true, .item = None, .itemPtr = NULL};
 	}
 }
+// TODO: this only needs the info of the timers, not the whole game
+void updateTimers(Player *player, EnemiesData *enemiesData)
+{
+	float deltaTime = GetFrameTime();
+
+	// TODO: update the player timer once it is in the player struct
+
+	for (size_t i = 0; i < enemiesData->nEnemies; i++)
+	{
+		Enemy *enemy = &enemiesData->enemies[i];
+
+		if (enemy->alive)
+		{
+			enemy->movementTimer = enemy->movementTimer + deltaTime;
+		}
+	}
+}

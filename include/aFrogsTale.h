@@ -14,6 +14,7 @@
 #define MOVEMENT_TIMER 0.2f
 #define GAME_SPEED 60
 #define ANIMATION_SPEED 12
+#define ENEMY_MOVEMENT_TIMER 1.5f // this is one movement every second
 
 // escape codes for printf
 #define TERM_GREEN "\033[32m"
@@ -190,6 +191,7 @@ bool loadAnimation(AnimationData *animationData, const char *name, unsigned int 
 bool loadAllSpritesAndAnimations(Sprites *sprites, AnimationsDatabase *animations);
 Position calcNewPosition(Position oldPos, Direction direction);
 TileStatus checkTile(Position desiredTile, GameData *game);
+void updateTimers(Player *player, EnemiesData *enemiesData);
 
 
 /* Functions of combat.c */
@@ -207,3 +209,6 @@ void updatePlayerAnimation(Player *player);
 void updateAnimations(unsigned int *frameCounter, CoinsData *coins, Player *player);
 void updateOtherAnimations(CoinsData *coinsData);
 AnimationInstance instantiateAnimation(const AnimationData *data);
+
+/* Functions of enemies.c */
+void moveEnemies(GameData *game);

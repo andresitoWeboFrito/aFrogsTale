@@ -69,9 +69,15 @@ int main(int argc, char **argv)
 		return 0;
 	while (!WindowShouldClose() && game.state == Playing)
 	{
-		// Check the player inputs
+		// TODO: move the timer to the player struct
 		timer = timer + GetFrameTime();
+		updateTimers(&game.player, &game.enemiesData);
+
+		// Check the player inputs
 		checkPressedKeys(&game, &timer);
+
+		// Actions of the enemies
+		moveEnemies(&game);
 
 		// draw each frame
 		BeginDrawing();

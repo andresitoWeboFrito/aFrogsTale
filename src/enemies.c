@@ -11,6 +11,7 @@
  -> so we are having classes in c. Great :)
 */
 
+// TODO:  change this so the check tile only takes what it needs
 Position calcNewEnemyPos(Position playerPos, Position enemyPos, GameData *game)
 {
 	// TODO: figure out if the player is in range
@@ -53,7 +54,15 @@ Position calcNewEnemyPos(Position playerPos, Position enemyPos, GameData *game)
 
 void moveEnemies(GameData *game)
 {
-	// chrck all and if the time happened since the last movement
+	for (size_t i = 0; i < game->enemiesData.nEnemies; i++)
+	{
+		Enemy *enemy = &game->enemiesData.enemies[i];
+		if (enemy->alive && enemy->movementTimer > ENEMY_MOVEMENT_TIMER)
+		{
+			enemy->pos = calcNewEnemyPos(game->player.pos, enemy->pos, game);
+			enemy->movementTimer = 0;
+		}
+	}
 }
 
 void attackPlayer()
