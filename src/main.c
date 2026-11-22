@@ -87,7 +87,7 @@ int main(int argc, char **argv)
 
 		renderPlayer(&game.player, &game.sprites);
 		renderCoins(&game.coinsData, &game.sprites.coin);
-		renderEnemies(&game.enemiesData, &game.sprites.enemy);
+		renderEnemies(&game.enemiesData, &game.sprites.enemyLeft);
 		renderCounters(&game);
 		EndDrawing();
 

@@ -49,7 +49,9 @@ bool loadAllSpritesAndAnimations(Sprites *sprites, AnimationsDatabase *animation
 		return false;
 	else if (!loadSprite(&sprites->doorOpen, "door_open.png"))
 		return false;
-	else if (!loadSprite(&sprites->enemy, "enemy.png"))
+	else if (!loadSprite(&sprites->enemyLeft, "enemy_left.png"))
+		return false;
+	else if (!loadSprite(&sprites->enemyRight, "enemy_right.png"))
 		return false;
 	else if (!loadSprite(&sprites->ground, "ground.png"))
 		return false;

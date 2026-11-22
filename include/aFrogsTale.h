@@ -91,7 +91,8 @@ typedef struct
 	Texture2D coin;
 	Texture2D doorClosed;
 	Texture2D doorOpen;
-	Texture2D enemy;
+	Texture2D enemyLeft;
+	Texture2D enemyRight;
 } Sprites;
 
 typedef struct
@@ -192,7 +193,6 @@ bool loadAllSpritesAndAnimations(Sprites *sprites, AnimationsDatabase *animation
 Position calcNewPosition(Position oldPos, Direction direction);
 TileStatus checkTile(Position desiredTile, GameData *game);
 void updateTimers(Player *player, EnemiesData *enemiesData);
-
 
 /* Functions of combat.c */
 void playerAttack(Player *player, EnemiesData *enemiesData, const AnimationsDatabase *animationDB, size_t *score);
