@@ -168,6 +168,7 @@ void addEnemy(EnemiesData *enemiesData, Position pos)
 		enemiesData->enemies[enemiesData->nEnemies].dir = Left;
 		enemiesData->enemies[enemiesData->nEnemies].pos = pos;
 		enemiesData->enemies[enemiesData->nEnemies].movementTimer = 0;
+		enemiesData->enemies[enemiesData->nEnemies].viewDistance = 3;
 
 		enemiesData->nEnemies++;
 	}

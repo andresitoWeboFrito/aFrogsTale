@@ -67,7 +67,7 @@ void renderExit(const DoorInfo *door, const Texture2D *openDoorSprite, const Tex
 		DrawTexture(*closeDoorSprite, door->pos.x * SPRITE_SIZE, door->pos.y * SPRITE_SIZE, WHITE);
 }
 
-void renderEnemies(const EnemiesData *enemiesData, const Texture2D *enemySprite)
+void renderEnemies(const EnemiesData *enemiesData, const Sprites *sprites)
 {
 	for (size_t i = 0; i < enemiesData->nEnemies; i++)
 	{
@@ -75,8 +75,10 @@ void renderEnemies(const EnemiesData *enemiesData, const Texture2D *enemySprite)
 
 		if (enemy->alive)
 		{
-			// at the moment there is only one sprite to render, later I'll have to check also the direction
-			DrawTexture(*enemySprite, enemy->pos.x * SPRITE_SIZE, enemy->pos.y * SPRITE_SIZE, WHITE);
+			if (enemy->dir == Left)
+				DrawTexture(sprites->enemyLeft, enemy->pos.x * SPRITE_SIZE, enemy->pos.y * SPRITE_SIZE, WHITE);
+			else
+				DrawTexture(sprites->enemyRight, enemy->pos.x * SPRITE_SIZE, enemy->pos.y * SPRITE_SIZE, WHITE);
 		}
 	}
 }

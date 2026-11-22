@@ -12,62 +12,38 @@
 */
 
 // TODO:  change this so the check tile only takes what it needs
-Position calcNewEnemyPos(Position playerPos, Position enemyPos, GameData *game)
+void calcNewEnemyPos(Position playerPos, Enemy *enemy, GameData *game)
 {
-	// TODO: figure out if the player is in range
-
-	// Calc distance to player
-	int xDistance = playerPos.x - enemyPos.x;
-	int yDistance = playerPos.y - enemyPos.y;
-	Direction enemyDir = Left;
-
-	// figure out the direction to take
-	if (abs(xDistance) > abs(yDistance))
-	{
-		if (xDistance > 0)
-			enemyDir = Right;
-		else
-			enemyDir = Left;
-	}
+	Direction longDir;
+	Direction shortDir;
+	calcMovementDirections(playerPos, enemy->pos, &longDir, &shortDir);
+	// store the new direction (only left or right because is where it looks to)
+	if (longDir == Left || longDir == Right)
+		enemy->dir = longDir;
 	else
-	{
-		if (yDistance > 0)
-			enemyDir = Down;
-		else
-			enemyDir = Up;
-	}
+		enemy->dir = shortDir;
 
-	Position newPos = calcNewPosition(enemyPos, enemyDir);
+	Position newPos = calcNewPosition(enemy->pos, longDir);
 	// Check the tile
 	TileStatus tileStatus = checkTile(newPos, game);
-
 	if (tileStatus.free)
 	{
-		return (newPos);
+		enemy->pos = newPos;
 	}
 	else
 	{
-		// I have to find a cleaner way of doing this
-		if (abs(xDistance) < abs(yDistance))
-		{
-			if (xDistance > 0)
-				enemyDir = Right;
-			else
-				enemyDir = Left;
-		}
-		else
-		{
-			if (yDistance > 0)
-				enemyDir = Down;
-			else
-				enemyDir = Up;
-		}
-		newPos = calcNewPosition(enemyPos, enemyDir);
+		// The desired tile is blocked, try with the shortes direction
+		newPos = calcNewPosition(enemy->pos, shortDir);
 		tileStatus = checkTile(newPos, game);
 		if (tileStatus.free)
-			return newPos;
+		{
+			enemy->pos = newPos;
+		}
 		else
-			return enemyPos;
+		{
+			// The second option of tile is also blocked. Can't move the enemy
+			return;
+		}
 	}
 }
 
@@ -78,8 +54,12 @@ void moveEnemies(GameData *game)
 		Enemy *enemy = &game->enemiesData.enemies[i];
 		if (enemy->alive && enemy->movementTimer > ENEMY_MOVEMENT_TIMER)
 		{
-			enemy->pos = calcNewEnemyPos(game->player.pos, enemy->pos, game);
-			enemy->movementTimer = 0;
+			// Check if the player is in "viewing distance"
+			if (calcDistance(game->player.pos, enemy->pos) <= enemy->viewDistance)
+			{
+				calcNewEnemyPos(game->player.pos, enemy, game);
+				enemy->movementTimer = 0;
+			}
 		}
 	}
 }

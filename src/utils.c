@@ -153,3 +153,47 @@ void updateTimers(Player *player, EnemiesData *enemiesData)
 		}
 	}
 }
+
+void calcMovementDirections(Position endPos, Position initialPos, Direction *longDir, Direction *shortDir)
+{
+	// Calc the whole distance
+	int xDistance = endPos.x - initialPos.x;
+	int yDistance = endPos.y - initialPos.y;
+
+	if (abs(xDistance) > abs(yDistance)) // the long is x axis, the short is y axis
+	{
+		// calc long direction
+		if (xDistance > 0)
+			*longDir = Right;
+		else
+			*longDir = Left;
+
+		// calc short direction
+		if (yDistance > 0)
+			*shortDir = Down;
+		else
+			*shortDir = Up;
+	}
+	else
+	{
+		// calc long direction
+		if (yDistance > 0)
+			*longDir = Down;
+		else
+			*longDir = Up;
+
+		// calc short direction
+		if (xDistance > 0)
+			*shortDir = Right;
+		else
+			*shortDir = Left;
+	}
+}
+
+double calcDistance(Position pos1, Position pos2)
+{
+	int xDistance = pos1.x - pos2.x;
+	int yDistance = pos1.y - pos2.y;
+
+	return sqrt(xDistance * xDistance + yDistance * yDistance);
+}

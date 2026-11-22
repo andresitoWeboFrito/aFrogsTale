@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <math.h>
 
 // global consts
 #define SPRITE_SIZE 64
@@ -113,8 +114,9 @@ typedef struct
 {
 	Position pos;
 	Direction dir;
-	bool alive;
 	float movementTimer;
+	unsigned int viewDistance;
+	bool alive;
 } Enemy;
 
 typedef struct
@@ -178,7 +180,7 @@ void renderBackground(char **map, const Sprites *sprites);
 void renderPlayer(Player *player, Sprites *sprites);
 void renderCoins(CoinsData *coinsData, const Texture2D *coinSprite);
 void renderExit(const DoorInfo *door, const Texture2D *openDoorSprite, const Texture2D *closeDoorSprite);
-void renderEnemies(const EnemiesData *enemiesData, const Texture2D *enemySprite);
+void renderEnemies(const EnemiesData *enemiesData, const Sprites *sprites);
 void renderAnimation(AnimationInstance *animation, Position pos);
 void renderCounters(const GameData *game);
 
@@ -193,6 +195,8 @@ bool loadAllSpritesAndAnimations(Sprites *sprites, AnimationsDatabase *animation
 Position calcNewPosition(Position oldPos, Direction direction);
 TileStatus checkTile(Position desiredTile, GameData *game);
 void updateTimers(Player *player, EnemiesData *enemiesData);
+void calcMovementDirections(Position endPos, Position initialPos, Direction *longDir, Direction *shortDir);
+double calcDistance(Position pos1, Position pos2);
 
 /* Functions of combat.c */
 void playerAttack(Player *player, EnemiesData *enemiesData, const AnimationsDatabase *animationDB, size_t *score);
