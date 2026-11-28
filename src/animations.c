@@ -56,3 +56,19 @@ AnimationInstance instantiateAnimation(const AnimationData *data)
 
 	return instance;
 }
+
+// TODO: return pointer or Animation instance?
+const AnimationInstance *addAnimation(AnimationInstance *liveAnimations, const AnimationsDatabase *db, AnimationName newAnimation)
+{
+
+	// search for the first free space (animation not playing ||)
+	// put the data of the desired animation
+	// return a pointer to the animation
+	// or nullptr if its not really live
+}
+
+
+/*
+ I want a funciton to add a new animation to the live animation array
+ If an entity has one assigned play it if not play the standing animation
+*/

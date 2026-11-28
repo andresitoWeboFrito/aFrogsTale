@@ -33,6 +33,7 @@ bool initGame(GameData *game)
 	game->door.isOpen = false;
 	game->state = Playing;
 	game->score = 0;
+	game->liveAnimations = {0};
 
 	if (!checkMap(game->map))
 		return false;

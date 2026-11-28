@@ -43,7 +43,9 @@ typedef enum
 {
 	PlayerBasicAttackRight,
 	PlayerBasicAttackLeft,
-	CoinCollected
+	CoinCollected,
+	EnemyBasicAttackLeft,
+	EnemyBasicAttackRight
 } AnimationName;
 
 typedef enum
@@ -161,6 +163,7 @@ typedef struct
 	EnemiesData enemiesData;
 	size_t score;
 	DoorInfo door;
+	AnimationInstance liveAnimations[MAX_ANIMATIONS];
 } GameData;
 
 /* Functions of map.c */
